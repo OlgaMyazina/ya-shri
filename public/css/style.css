@@ -4,6 +4,7 @@
   padding : 0;
   border : 0;
   outline : none;
+  box-sizing : border-box;
 }
 
 html {
@@ -73,10 +74,6 @@ header {
 .nav-item {
   text-decoration : none;
   padding-left : 1.25rem;
-}
-
-.nav-item:hover {
-  opacity : 1;
 }
 
 .menu-toggle {
@@ -156,7 +153,8 @@ main {
   padding-top : 2rem;
   display : grid;
   grid-template-columns : repeat(6, 1fr);
-  grid-auto-rows : minmax(11rem, auto);
+  grid-template-rows : repeat(auto-fit, minmax(10rem, 1fr));
+  /*grid-auto-rows : repeat(auto-fit, minmax(10rem, 1fr));*/
   grid-gap : 1.25rem;
   grid-auto-flow : dense;
 
@@ -204,33 +202,10 @@ main {
   text-align : center;
   display : inline-block;
   margin-right : 1.2rem;
+  margin-top : 1.8rem;
+  padding-top : 0.7rem;
 }
 
-.tile:hover {
-  background : #f3f3f3;
-  box-shadow : 0 2px 6px 0 rgba(197, 186, 186, 0.5);
-}
-.tile:hover .info-tile {
-  background : #f3f3f3;
-}
-.tile:hover:before {
-  content : '';
-  position : absolute;
-  background : url('../img/cross.svg') no-repeat;
-  width : 1rem;
-  height : 1rem;
-  top : 1rem;
-  right : 1rem;
-}
-.tile:hover:after {
-  content : '';
-  position : absolute;
-  background : url('../img/next.svg') no-repeat;
-  width : 0.7rem;
-  height : 1rem;
-  bottom : 1rem;
-  right : 1rem;
-}
 .type-tile {
   display : grid;
   grid-template-columns : 3rem 1fr 1fr 3rem;
@@ -263,34 +238,40 @@ main {
   grid-column : 3 / span 2;
   text-align : right;
 }
-
+.data-tile {
+  min-height : inherit;
+}
+/*
 .data-tile > img {
   width : 100%;
   border-radius : 1.25rem;
 }
+*/
 
 .description-tile {
   font-family : ArialMT;
-  font-size : 1.5rem;
+  font-size : 1.25rem;
   color : #333333;
   text-align : left;
 }
 .graph {
   width : 100%;
-  min-height : calc(100vw / 2.5);
+  min-height : 26rem;
   border-radius : 1.25rem;
   background-repeat : no-repeat;
   background-size : contain;
   background-position-y : 100%;
 }
+/*
 .image {
   width : 100%;
   min-height : calc(100vw / 2.5);
   border-radius : 1.25rem;
   background-repeat : no-repeat;
-  background-size : contain;
+  background-size : cover;
   background-position-y : 100%;
 }
+*/
 
 .buttons {
   position : relative;
@@ -330,6 +311,7 @@ main {
   grid-template-rows : 1.3rem 1.3rem 3.25rem;
   grid-template-columns : 3.3rem 3.3rem auto 2rem;
   grid-gap : 1rem;
+  margin-top : 1rem;
 }
 .data-tile > audio {
   display : none;
@@ -389,6 +371,19 @@ main {
   display : none;
 }
 
+.camera {
+  overflow : hidden; /* Скрываем всё за контуром */
+}
+.cam {
+  touch-action : none;
+  margin-top : 2rem;
+  transition : 1s; /* Время эффекта */
+  min-height : 26rem;
+  background-position : 50% 50%;
+  border-radius : 1.25rem;
+  background-size : 100% 100%;
+}
+
 @media screen and (max-width: 67rem) {
   .container {
     max-width : 42rem;
@@ -439,6 +434,16 @@ main {
     justify-content : space-between;
   }
 }
+.zoom-in {
+          transform : scale(0.7, 0.7);
+      -ms-transform : scale(0.7, 0.7);
+  -webkit-transform : scale(0.7, 0.7);
+}
+.zoom-out {
+          transform : scale(1.4, 1.4);
+      -ms-transform : scale(1.4, 1.4);
+  -webkit-transform : scale(1.4, 1.4);
+}
 
 /*footer style*/
 footer {
@@ -469,9 +474,6 @@ footer {
   grid-template-columns : repeat(4, auto);
   grid-gap : 1rem;
 }
-.foo-menu-a:hover {
-  color : #333333;
-}
 
 .foo-copy {
   grid-area : copy;
@@ -486,5 +488,39 @@ footer {
 @media only screen and (max-width: 599px) {
   footer {
     display : none;
+  }
+}
+@media only screen and (min-width: 600px) {
+  .nav-item:hover {
+    opacity : 1;
+  }
+  .tile:hover:before {
+    content : '';
+    position : absolute;
+    background : url('../img/cross.svg') no-repeat;
+    width : 1rem;
+    height : 1rem;
+    top : 1rem;
+    right : 1rem;
+  }
+  .tile:hover:after {
+    content : '';
+    position : absolute;
+    background : url('../img/next.svg') no-repeat;
+    width : 0.7rem;
+    height : 1rem;
+    bottom : 1rem;
+    right : 1rem;
+  }
+  .tile:hover {
+    background : #f3f3f3;
+    box-shadow : 0 2px 6px 0 rgba(197, 186, 186, 0.5);
+  }
+  .tile:hover .info-tile {
+    background : #f3f3f3;
+  }
+
+  .foo-menu-a:hover {
+    color : #333333;
   }
 }
