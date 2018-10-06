@@ -1,0 +1,490 @@
+/*Сброс стилей, лучше подключить normolize.css*/
+* {
+  margin : 0;
+  padding : 0;
+  border : 0;
+  outline : none;
+}
+
+html {
+  /*растягиваем документ на всю высоту окна*/
+  height : 100%;
+}
+
+body {
+  /* Растягиваем body по высоте html */
+  min-height : 100%;
+  height : 100%;
+  display : grid;
+  grid-template-rows : [row1] 4rem [row2] 1fr [row3] 4rem;
+  grid-template-areas : 'header'
+  'main'
+  'footer';
+}
+
+header {
+  position : fixed;
+  left : 0;
+  top : 0;
+  width : 100%;
+  grid-area : header;
+  display : grid;
+  height : 4rem;
+  grid-template : 'logo nav'
+  'icon icon';
+  grid-auto-columns : min-content;
+  grid-template-rows : auto 1px;
+  align-items : center;
+  border-bottom : 1px solid #f0f0f0;
+  background : white;
+  z-index : 1;
+}
+
+.font-arial-bold {
+  opacity : 0.6;
+  font-family : Arial-BoldMT;
+  font-size : 16px;
+  color : #333333;
+  line-height : 20px;
+}
+
+.logo {
+  padding-left : 2.6rem;
+}
+/*ссылка <a href=...> делаем inline-block, нельзя добавлять изображение в строчный элемент*/
+.logo-href {
+  display : inline-block;
+  grid-area : logo;
+  min-width : 9rem;
+}
+
+.nav {
+  grid-area : nav;
+  justify-self : left;
+  position : relative;
+}
+
+.nav-list {
+  list-style : none;
+  display : inline-grid;
+  grid-auto-flow : column;
+}
+
+.nav-item {
+  text-decoration : none;
+  padding-left : 1.25rem;
+}
+
+.nav-item:hover {
+  opacity : 1;
+}
+
+.menu-toggle {
+  opacity : 0;
+  display : inline-block;
+  grid-area : icon;
+}
+
+input[type='checkbox'] {
+  display : none;
+}
+
+@media only screen and (max-width: 599px) {
+  header {
+    height : 3rem;
+    border : initial;
+    grid-template : 'logo icon'
+    'nav nav';
+    grid-auto-columns : auto;
+    grid-template-rows : auto 1px;
+  }
+  .logo {
+    padding-left : 1.25rem;
+  }
+  .nav {
+    opacity : 0;
+    justify-self : center;
+    top : 5rem;
+    position : relative;
+    left : 0;
+    right : 0;
+    bottom : 0;
+    background : white;
+    width : 100%;
+  }
+
+  .nav-list {
+    display : block;
+  }
+
+  .nav-item {
+    padding-bottom : 1rem;
+    display : inline-block;
+  }
+
+  .menu-toggle {
+    opacity : 1;
+    text-align : right;
+  }
+  .menu-icon {
+    padding-right : 1.25rem;
+  }
+
+  input[type='checkbox']:checked ~ .nav {
+    opacity : 1;
+  }
+}
+
+/*main*/
+main {
+  grid-area : main;
+}
+
+.font-h1 {
+  font-family : Arial-BoldMT;
+  font-size : 2.25rem;
+  color : #333333;
+  text-align : left;
+}
+
+.container {
+  max-width : 65rem;
+  margin : 2rem auto 0;
+}
+
+.content {
+  padding-top : 2rem;
+  display : grid;
+  grid-template-columns : repeat(6, 1fr);
+  grid-auto-rows : minmax(11rem, auto);
+  grid-gap : 1.25rem;
+  grid-auto-flow : dense;
+
+  /*grid-auto-rows : minmax(min-content, max-content);*/
+}
+
+.tile {
+  background : #fafafa;
+  border-radius : 1.25rem;
+  position : relative;
+  grid-auto-rows : min-content;
+}
+.type-tile[type='critical'] {
+  background : #db5341;
+  border-radius : 20px 20px 0 0;
+  color : white;
+  z-index : -1;
+}
+.type-tile[type='critical'] > * {
+  color : white;
+}
+.type-tile[type='critical'] > .icon-tile {
+  fill : white;
+}
+
+.info-tile {
+  background : #fafafa;
+  border-radius : 1.25rem;
+  padding : 1.68rem 1.25rem 1.25rem;
+  z-index : 1;
+  margin-top : -1rem;
+  opacity : 0;
+}
+.visable {
+  opacity : 1;
+}
+.data-button {
+  width : 8.25rem;
+  height : 3.4rem;
+  background-color : #e5e5e5;
+  border-radius : 0.5rem;
+  font-family : Arial-BoldMT;
+  font-size : 1.25rem;
+  color : #000000;
+  text-align : center;
+  display : inline-block;
+  margin-right : 1.2rem;
+}
+
+.tile:hover {
+  background : #f3f3f3;
+  box-shadow : 0 2px 6px 0 rgba(197, 186, 186, 0.5);
+}
+.tile:hover .info-tile {
+  background : #f3f3f3;
+}
+.tile:hover:before {
+  content : '';
+  position : absolute;
+  background : url('../img/cross.svg') no-repeat;
+  width : 1rem;
+  height : 1rem;
+  top : 1rem;
+  right : 1rem;
+}
+.tile:hover:after {
+  content : '';
+  position : absolute;
+  background : url('../img/next.svg') no-repeat;
+  width : 0.7rem;
+  height : 1rem;
+  bottom : 1rem;
+  right : 1rem;
+}
+.type-tile {
+  display : grid;
+  grid-template-columns : 3rem 1fr 1fr 3rem;
+  grid-template-rows : 3.6rem auto;
+  grid-gap : 1rem 1rem;
+  padding : 1.25rem 1.25rem 1.25rem;
+}
+.icon-tile {
+  width : 3rem;
+  grid-column : 1;
+  background-repeat : no-repeat;
+}
+.title-tile {
+  font-family : Arial-BoldMT;
+  font-size : 1.5rem;
+  color : #333333;
+  text-align : left;
+  grid-column : 2 / span 3;
+  text-overflow : ellipsis;
+  overflow : hidden;
+  height : 3.6rem;
+  -webkit-line-clamp : 2;
+  display : -webkit-box;
+  -webkit-box-orient : vertical;
+}
+.source-tile {
+  grid-column : 1 / span 2;
+}
+.time-tile {
+  grid-column : 3 / span 2;
+  text-align : right;
+}
+
+.data-tile > img {
+  width : 100%;
+  border-radius : 1.25rem;
+}
+
+.description-tile {
+  font-family : ArialMT;
+  font-size : 1.5rem;
+  color : #333333;
+  text-align : left;
+}
+.graph {
+  width : 100%;
+  min-height : calc(100vw / 2.5);
+  border-radius : 1.25rem;
+  background-repeat : no-repeat;
+  background-size : contain;
+  background-position-y : 100%;
+}
+.image {
+  width : 100%;
+  min-height : calc(100vw / 2.5);
+  border-radius : 1.25rem;
+  background-repeat : no-repeat;
+  background-size : contain;
+  background-position-y : 100%;
+}
+
+.buttons {
+  position : relative;
+  bottom : 0;
+}
+
+.buttons > .data-button:first-child {
+  background : #ffd93e;
+}
+
+.s {
+  /*описание для маленькой карточки*/
+  grid-column : span 2;
+}
+.s .source-tile {
+  grid-column : span 4;
+}
+.s .time-tile {
+  grid-column : span 4;
+  text-align : left;
+}
+.m {
+  /*описание для средней карточки*/
+  grid-column : span 3;
+}
+.l {
+  /*описание для большой карточки*/
+  grid-column : span 4;
+  grid-row : span 3;
+}
+
+.data-audio {
+  display : grid;
+  grid-template-areas : 'cover artist artist .'
+  'cover rtrack rtrack vtrack'
+  'prev next rvolume vvolume';
+  grid-template-rows : 1.3rem 1.3rem 3.25rem;
+  grid-template-columns : 3.3rem 3.3rem auto 2rem;
+  grid-gap : 1rem;
+}
+.data-tile > audio {
+  display : none;
+}
+.cover {
+  grid-area : cover;
+  background-repeat : no-repeat;
+  background-size : cover;
+  width : 100%;
+  height : 100%;
+  border-radius : 0.5rem;
+}
+.artist {
+  grid-area : artist;
+  font-family : ArialMT;
+  font-size : 20px;
+  color : #000000;
+}
+.track {
+  grid-area : rtrack;
+  width : 100%;
+}
+.length {
+  grid-area : vtrack;
+  font-family : Helvetica;
+  font-size : 14px;
+  color : #000000;
+  text-align : left;
+}
+.prev {
+  grid-area : prev;
+  background-image : url(../img/Prev.svg);
+  width : 100%;
+  height : 100%;
+  background-repeat : no-repeat;
+  background-size : cover;
+}
+.next {
+  grid-area : next;
+  background-image : url(../img/Prev.svg);
+  transform : rotate(180deg);
+  width : 100%;
+  height : 100%;
+  background-repeat : no-repeat;
+  background-size : cover;
+}
+.volume-range {
+  grid-area : rvolume;
+  width : 100%;
+  align-self : center;
+}
+.volume {
+  grid-area : vvolume;
+  align-self : center;
+}
+.control-labels {
+  display : none;
+}
+
+@media screen and (max-width: 67rem) {
+  .container {
+    max-width : 42rem;
+    margin : 2.1rem auto 0;
+  }
+  .content {
+    grid-gap : 1rem;
+    grid-template-columns : repeat(4, 1fr);
+    grid-auto-rows : minmax(6rem, auto);
+  }
+  .m {
+    grid-column : span 4;
+  }
+}
+
+@media only screen and (max-width: 599px) {
+  .font-h1 {
+    font-size : 1.5rem;
+  }
+  .container {
+    margin : 0 1.125rem;
+  }
+  .content {
+    grid-gap : 1rem;
+    grid-template-columns : repeat(2, 1fr);
+  }
+  .s,
+  .m,
+  .l {
+    grid-column : span 2;
+  }
+  .s .source-tile {
+    grid-column : span 2;
+  }
+  .s .time-tile {
+    grid-column : span 2;
+    text-align : right;
+  }
+  .title-tile {
+    font-size : 0.875rem;
+  }
+  .description-tile {
+    font-family : Helvetica;
+    font-size : 1.125rem;
+  }
+  .control-labels {
+    display : flex;
+    justify-content : space-between;
+  }
+}
+
+/*footer style*/
+footer {
+  height : 4rem;
+  width : 100%;
+  grid-area : footer;
+  display : grid;
+  grid-template-columns : [col1] auto [col3] 1fr;
+  grid-template-areas : 'menu copy';
+  border-top : 1px solid #f0f0f0;
+}
+/*TODO: перенести шрифты*/
+.foo-menu-a,
+.foo-copy-p {
+  text-decoration : none;
+  font-family : ArialMT;
+  font-size : 0.75rem;
+  color : #858585;
+  letter-spacing : 0.01px;
+  text-align : left;
+}
+.foo-menu {
+  padding-top : 1.4rem;
+  padding-left : 2.5rem;
+  list-style : none;
+  grid-area : menu;
+  display : grid;
+  grid-template-columns : repeat(4, auto);
+  grid-gap : 1rem;
+}
+.foo-menu-a:hover {
+  color : #333333;
+}
+
+.foo-copy {
+  grid-area : copy;
+  padding-top : 1.4rem;
+  padding-right : 2.5rem;
+}
+.foo-copy-p {
+  text-align : right;
+}
+
+/*footer исчезает при мобильных*/
+@media only screen and (max-width: 599px) {
+  footer {
+    display : none;
+  }
+}

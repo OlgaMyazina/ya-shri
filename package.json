@@ -1,0 +1,14 @@
+{
+  "name": "events-json",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "serve": "json-server public/events.json"
+  },
+  "author": "",
+  "license": "ISC",
+  "devDependencies": {
+    "json-server": "^0.14.0"
+  }
+}
