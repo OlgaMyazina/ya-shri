@@ -1,6 +1,6 @@
 'use strict';
 
-const urlJSON = 'files/events.json';
+const urlJSON = '../files/events.json';
 
 fetch(urlJSON)
   .then(res => res.json())
