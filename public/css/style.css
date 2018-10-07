@@ -4,7 +4,8 @@
   padding : 0;
   border : 0;
   outline : none;
-  box-sizing : border-box;
+  -webkit-box-sizing : border-box;
+          box-sizing : border-box;
 }
 
 html {
@@ -16,7 +17,8 @@ body {
   /* Растягиваем body по высоте html */
   min-height : 100%;
   height : 100%;
-  display : grid;
+  display : -ms-grid;
+  display :     grid;
   grid-template-rows : [row1] 4rem [row2] 1fr [row3] 4rem;
   grid-template-areas : 'header'
   'main'
@@ -29,12 +31,15 @@ header {
   top : 0;
   width : 100%;
   grid-area : header;
-  display : grid;
+  display : -ms-grid;
+  display :     grid;
   height : 4rem;
   grid-template : 'logo nav'
   'icon icon';
-  grid-auto-columns : min-content;
+  grid-auto-columns : -webkit-min-content;
+  grid-auto-columns :         min-content;
   grid-template-rows : auto 1px;
+  -webkit-box-align : center;
   align-items : center;
   border-bottom : 1px solid #f0f0f0;
   background : white;
@@ -67,7 +72,8 @@ header {
 
 .nav-list {
   list-style : none;
-  display : inline-grid;
+  display : -ms-inline-grid;
+  display :     inline-grid;
   grid-auto-flow : column;
 }
 
@@ -165,7 +171,8 @@ main {
   background : #fafafa;
   border-radius : 1.25rem;
   position : relative;
-  grid-auto-rows : min-content;
+  grid-auto-rows : -webkit-min-content;
+  grid-auto-rows :         min-content;
 }
 .type-tile[type='critical'] {
   background : #db5341;
@@ -207,7 +214,8 @@ main {
 }
 
 .type-tile {
-  display : grid;
+  display : -ms-grid;
+  display :     grid;
   grid-template-columns : 3rem 1fr 1fr 3rem;
   grid-template-rows : 3.6rem auto;
   grid-gap : 1rem 1rem;
@@ -224,7 +232,8 @@ main {
   color : #333333;
   text-align : left;
   grid-column : 2 / span 3;
-  text-overflow : ellipsis;
+  -o-text-overflow : ellipsis;
+     text-overflow : ellipsis;
   overflow : hidden;
   height : 3.6rem;
   -webkit-line-clamp : 2;
@@ -241,12 +250,6 @@ main {
 .data-tile {
   min-height : inherit;
 }
-/*
-.data-tile > img {
-  width : 100%;
-  border-radius : 1.25rem;
-}
-*/
 
 .description-tile {
   font-family : ArialMT;
@@ -262,16 +265,6 @@ main {
   background-size : contain;
   background-position-y : 100%;
 }
-/*
-.image {
-  width : 100%;
-  min-height : calc(100vw / 2.5);
-  border-radius : 1.25rem;
-  background-repeat : no-repeat;
-  background-size : cover;
-  background-position-y : 100%;
-}
-*/
 
 .buttons {
   position : relative;
@@ -284,6 +277,7 @@ main {
 
 .s {
   /*описание для маленькой карточки*/
+
   grid-column : span 2;
 }
 .s .source-tile {
@@ -295,10 +289,12 @@ main {
 }
 .m {
   /*описание для средней карточки*/
+
   grid-column : span 3;
 }
 .l {
   /*описание для большой карточки*/
+
   grid-column : span 4;
   grid-row : span 3;
 }
@@ -327,8 +323,11 @@ main {
 .artist {
   grid-area : artist;
   font-family : ArialMT;
-  font-size : 20px;
+  font-size : 1.25rem;
   color : #000000;
+  -o-text-overflow : ellipsis;
+     text-overflow : ellipsis;
+  overflow : hidden;
 }
 .track {
   grid-area : rtrack;
@@ -352,7 +351,8 @@ main {
 .next {
   grid-area : next;
   background-image : url(../img/Prev.svg);
-  transform : rotate(180deg);
+  -webkit-transform : rotate(180deg);
+          transform : rotate(180deg);
   width : 100%;
   height : 100%;
   background-repeat : no-repeat;
@@ -377,11 +377,24 @@ main {
 .cam {
   touch-action : none;
   margin-top : 2rem;
-  transition : 1s; /* Время эффекта */
+  -webkit-transition : 1s;
+       -o-transition : 1s;
+          transition : 1s; /* Время эффекта */
   min-height : 26rem;
-  background-position : 50% 50%;
+  background-position-x : 50%;
   border-radius : 1.25rem;
   background-size : 100% 100%;
+  background-repeat : repeat-x;
+  position : relative;
+}
+.cam-slider {
+  display : inline-block;
+  background : rgba(0, 0, 0, 0.5);
+  height : 0.13rem;
+  width : 7.31rem;
+  position : absolute;
+  bottom : 0.1rem;
+  opacity : 0;
 }
 
 @media screen and (max-width: 67rem) {
@@ -429,9 +442,27 @@ main {
     font-family : Helvetica;
     font-size : 1.125rem;
   }
+  .artist {
+    font-size : 1rem;
+  }
+
   .control-labels {
+    display : -webkit-box;
     display : flex;
+    -webkit-box-pack : justify;
     justify-content : space-between;
+  }
+  .graph {
+    min-height : 14rem;
+    /*background-position-y : 100%;*/
+    -moz-background-position : center bottom;
+  }
+  .cam {
+    min-height : 14rem;
+  }
+  .data-button {
+    width : 6.25rem;
+    height : 2.75rem;
   }
 }
 .zoom-in {
@@ -450,7 +481,8 @@ footer {
   height : 4rem;
   width : 100%;
   grid-area : footer;
-  display : grid;
+  display : -ms-grid;
+  display :     grid;
   grid-template-columns : [col1] auto [col3] 1fr;
   grid-template-areas : 'menu copy';
   border-top : 1px solid #f0f0f0;
@@ -470,7 +502,8 @@ footer {
   padding-left : 2.5rem;
   list-style : none;
   grid-area : menu;
-  display : grid;
+  display : -ms-grid;
+  display :     grid;
   grid-template-columns : repeat(4, auto);
   grid-gap : 1rem;
 }
@@ -514,7 +547,8 @@ footer {
   }
   .tile:hover {
     background : #f3f3f3;
-    box-shadow : 0 2px 6px 0 rgba(197, 186, 186, 0.5);
+    -webkit-box-shadow : 0 2px 6px 0 rgba(197, 186, 186, 0.5);
+            box-shadow : 0 2px 6px 0 rgba(197, 186, 186, 0.5);
   }
   .tile:hover .info-tile {
     background : #f3f3f3;
