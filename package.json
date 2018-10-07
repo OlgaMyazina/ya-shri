@@ -4,7 +4,7 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "serve": "json-server public/events.json"
+    "serve": "json-server docs/events.json"
   },
   "author": "",
   "license": "ISC",
