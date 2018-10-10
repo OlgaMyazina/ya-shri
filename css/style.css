@@ -261,9 +261,18 @@ main {
   width : 100%;
   min-height : 26rem;
   border-radius : 1.25rem;
-  background-repeat : no-repeat;
-  background-size : contain;
-  background-position-y : 100%;
+  position : relative;
+}
+.graph picture {
+  position : absolute;
+  bottom : 0;
+  left : 0;
+  right : 0;
+}
+.graph img {
+  width : 100%;
+  height : auto;
+  border-radius : 1.25rem;
 }
 
 .buttons {
@@ -454,20 +463,9 @@ main {
   }
   .graph {
     min-height : 14rem;
-    position : relative;
     -moz-background-position : center bottom;
   }
-  .graph picture {
-    position : absolute;
-    bottom : 0;
-    left : 0;
-    right : 0;
-  }
-  .graph img {
-    width : 100%;
-    height : auto;
-    border-radius : 1.25rem;
-  }
+
   .cam {
     min-height : 14rem;
   }
