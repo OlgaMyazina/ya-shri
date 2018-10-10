@@ -12,12 +12,14 @@
   <link rel="stylesheet" href="css/style.css">
   <!-- include PEP -->
   <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
-  <script src="js/index.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+
+
 </head>
 
 <body>
   <header>
-    <a href="#" class="logo-href">
+    <a href="index.html" class="logo-href">
       <picture class="logo">
         <source srcset="img/logo.svg" type="image/svg+xml">
         <img src="img/logo@1x.png" srcset="img/logo@2x.png 2x" alt="Яндекс дом">
@@ -35,13 +37,13 @@
     <nav id="nav" class="nav">
       <ul class="nav-list">
         <li>
-          <a href="#" class="font-arial-bold nav-item">События</a>
+          <a href="index.html" class="font-arial-bold nav-item">События</a>
         </li>
         <li>
           <a href="#" class="font-arial-bold nav-item">Сводка</a>
         </li>
         <li>
-          <a href="device.html" class="font-arial-bold nav-item">Устройства</a>
+          <a href="#" class="font-arial-bold nav-item">Устройства</a>
         </li>
         <li>
           <a href="#" class="font-arial-bold nav-item">Сценарии</a>
@@ -54,10 +56,31 @@
   </header>
 
   <main>
-    <div class="container">
-      <h1 class="font-h1 main-h1">Лента событий</h1>
-      <div class="content">
 
+    <div class="container">
+
+      <h1 class="font-h1 main-h1">Устройства</h1>
+      <div class="content-device">
+
+        <div class="tile v">
+          <div class="title-tile-v">Камера 1</div>
+          <video id="video-1" class="video" controls muted autoplay preload></video>
+        </div>
+
+        <div class="tile v">
+          <div class="title-tile-v">Камера 2</div>
+          <video id="video-2" class="video" controls muted autoplay preload></video>
+        </div>
+
+        <div class="tile v">
+          <div class="title-tile-v">Камера 3</div>
+          <video id="video-3" class="video" controls muted autoplay preload></video>
+        </div>
+
+        <div class="tile v">
+          <div class="title-tile-v">Камера 4</div>
+          <video id="video-4" class="video" controls muted autoplay preload></video>
+        </div>
 
 
       </div>
@@ -83,42 +106,7 @@
       <p class="foo-copy-p">© 2001–2017 ООО «Яндекс»</p>
     </div>
   </footer>
-  <template class="template">
-    <div class="tile">
-      <div class="type-tile">
-        <div class="icon-tile"></div>
-        <div class="title-tile"></div>
-        <div class="source-tile"></div>
-        <div class="time-tile"></div>
-      </div>
-      <div class="info-tile">
-        <div class="description-tile"></div>
-        <div class="data-tile"></div>
-      </div>
-    </div>
-
-  </template>
-  <template class="template-audio">
-    <audio controls>
-      <source src="#">
-    </audio>
-    <div class="cover"></div>
-    <div class="artist"></div>
-    <input name="track-range" type="range" min="0" max="100" step="1" value="50" class="track">
-    <label for="track-range" class="length"></label>
-    <div class="prev"></div>
-    <div class="next"></div>
-    <input name="volume-range" type="range" min="0" max="100" step="1" value="50" class="volume-range">
-    <label for="volume-range" class="volume"></label>
-  </template>
-  <template class="template-graph">
-    <div class="graph"></div>
-  </template>
-  <template class="template-image">
-  </template>
-  <template class="template-buttons">
-    <div class="buttons"></div>
-  </template>
+  <script src="js/device.js"></script>
 </body>
 
 </html>

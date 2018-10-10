@@ -558,3 +558,33 @@ footer {
     color : #333333;
   }
 }
+
+.content-device {
+  display : grid;
+  grid-template-columns : repeat(2, 1fr);
+  grid-template-rows : 1fr 1fr;
+  grid-gap : 1.2rem;
+}
+
+.video {
+  width : 100%;
+  border-radius : 1.25rem;
+}
+
+.title-tile-v {
+  text-align : center;
+  font-family : Arial-BoldMT;
+  font-size : 1.5rem;
+  color : #333333;
+  -o-text-overflow : ellipsis;
+     text-overflow : ellipsis;
+  overflow : hidden;
+  height : 3.6rem;
+  -webkit-line-clamp : 2;
+  display : -webkit-box;
+  -webkit-box-orient : vertical;
+}
+.v {
+  padding : 1rem;
+  height : 20rem;
+}
