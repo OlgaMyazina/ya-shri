@@ -65,8 +65,7 @@ function createEventElement(event) {
       //добавляем source->picture
       picture.appendChild(source);
       //добавляем picture->.graph
-      graph.appendChild(picture);
-
+      graph.querySelector('.graph').appendChild(picture);
       tile.querySelector('.data-tile').appendChild(graph);
     }
     //Нашли изображение
