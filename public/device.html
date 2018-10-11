@@ -64,22 +64,22 @@
 
         <div class="tile v">
           <div class="title-tile-v">Камера 1</div>
-          <video id="video-1" class="video" controls muted autoplay preload></video>
+          <video id="video-1" class="video" muted autoplay preload></video>
         </div>
 
         <div class="tile v">
           <div class="title-tile-v">Камера 2</div>
-          <video id="video-2" class="video" controls muted autoplay preload></video>
+          <video id="video-2" class="video" muted autoplay preload></video>
         </div>
 
         <div class="tile v">
           <div class="title-tile-v">Камера 3</div>
-          <video id="video-3" class="video" controls muted autoplay preload></video>
+          <video id="video-3" class="video" muted autoplay preload></video>
         </div>
 
         <div class="tile v">
           <div class="title-tile-v">Камера 4</div>
-          <video id="video-4" class="video" controls muted autoplay preload></video>
+          <video id="video-4" class="video" muted autoplay preload></video>
         </div>
 
 
@@ -106,7 +106,16 @@
       <p class="foo-copy-p">© 2001–2017 ООО «Яндекс»</p>
     </div>
   </footer>
+  <div class="canvas-container">
+    <div class="tile-canvas">
+      <canvas class="canvas">
+      </canvas>
+      <div class="close">Все камеры</div>
+      <input type="range" min="0" max="100" value="50">
+    </div>
+  </div>
   <script src="js/device.js"></script>
+  <script src="js/popup.js"></script>
 </body>
 
 </html>

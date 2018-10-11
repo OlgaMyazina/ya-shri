@@ -568,6 +568,7 @@ footer {
 
 .video {
   width : 100%;
+  height : 70%;
   border-radius : 1.25rem;
 }
 
@@ -585,6 +586,90 @@ footer {
   -webkit-box-orient : vertical;
 }
 .v {
-  padding : 1rem;
+  padding : 0.5rem;
   height : 20rem;
+}
+
+.canvas-container {
+  position : fixed;
+  top : 0;
+  left : 0;
+  right : 0;
+  bottom : 0;
+  background-color : rgba(0, 0, 0, 0.3);
+  display : none;
+}
+
+.tile-canvas {
+  background-color : #fafafa;
+  border-radius : 1.25rem;
+  padding : 1rem;
+  width : 70%;
+  height : 70%;
+  border : 1px dotted red;
+  display : inline-block;
+}
+
+.opened .container {
+  -webkit-filter : blur(10px);
+          filter : blur(10px);
+}
+
+.opened .canvas-container {
+  display : block;
+}
+
+.tile-canvas {
+  /*width : 640px;
+  height : 320px;*/
+  border-radius : 1.25rem;
+  opacity : 0;
+  transform-origin : left top;
+  transform : scale(0.1);
+  position : absolute;
+  transition : top 1s, left 1s, transform 1s, opacity 1s;
+  transition-timing-function : ease-in;
+}
+
+.opened.tile-canvas {
+  opacity : 1;
+  transform : translate(-50%, -50%) scale(1);
+  top : 50% !important;
+  left : 50% !important;
+}
+/*
+.canvas {
+  width : 640px;
+  height : 320px;
+  border-radius : 1.25rem;
+  opacity : 0;
+  transform-origin : left top;
+  transform : scale(0.1);
+  position : absolute;
+  transition : top 1s, left 1s, transform 1s, opacity 1s;
+  transition-timing-function : ease-in;
+}
+
+.opened .canvas {
+  opacity : 1;
+  transform : translate(-50%, -50%) scale(1);
+  top : 50%;
+  left : 50%;
+}
+*/
+
+.close {
+  width : 7rem;
+  height : 5rem;
+  background-color : #fafafa;
+  display : inline-block;
+  position : absolute;
+  bottom : 1rem;
+  right : 1rem;
+  z-index : 1;
+  padding : 0.5rem;
+  border-radius : 0.75rem;
+  text-align : center;
+  border : 1px solid black;
+  z-index : 2;
 }
