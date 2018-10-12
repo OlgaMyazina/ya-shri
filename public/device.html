@@ -10,15 +10,16 @@
   <title>Яндекс.Дом</title>
   <link rel="shortcut icon" href="img/icon.jpg">
   <link rel="stylesheet" href="css/style.css">
-  <!-- include PEP -->
+  <!-- добавили PEP для поддерки poiner event -->
   <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+  <!-- для потокового видео -->
   <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
-
-
 </head>
 
 <body>
+
   <header>
+
     <a href="index.html" class="logo-href">
       <picture class="logo">
         <source srcset="img/logo.svg" type="image/svg+xml">
@@ -35,56 +36,19 @@
     </label>
 
     <nav id="nav" class="nav">
-      <ul class="nav-list">
-        <li>
-          <a href="index.html" class="font-arial-bold nav-item">События</a>
-        </li>
-        <li>
-          <a href="#" class="font-arial-bold nav-item">Сводка</a>
-        </li>
-        <li>
-          <a href="#" class="font-arial-bold nav-item">Устройства</a>
-        </li>
-        <li>
-          <a href="#" class="font-arial-bold nav-item">Сценарии</a>
-        </li>
-      </ul>
+      <ul class="nav-list"></ul>
     </nav>
-
-
 
   </header>
 
   <main>
 
     <div class="container">
-
       <h1 class="font-h1 main-h1">Устройства</h1>
       <div class="content-device">
-
-        <div class="tile v">
-          <div class="title-tile-v">Камера 1</div>
-          <video id="video-1" class="video" muted autoplay preload></video>
-        </div>
-
-        <div class="tile v">
-          <div class="title-tile-v">Камера 2</div>
-          <video id="video-2" class="video" muted autoplay preload></video>
-        </div>
-
-        <div class="tile v">
-          <div class="title-tile-v">Камера 3</div>
-          <video id="video-3" class="video" muted autoplay preload></video>
-        </div>
-
-        <div class="tile v">
-          <div class="title-tile-v">Камера 4</div>
-          <video id="video-4" class="video" muted autoplay preload></video>
-        </div>
-
-
       </div>
     </div>
+
   </main>
 
   <footer>
@@ -106,16 +70,8 @@
       <p class="foo-copy-p">© 2001–2017 ООО «Яндекс»</p>
     </div>
   </footer>
-  <div class="canvas-container">
-    <div class="tile-canvas">
-      <canvas class="canvas">
-      </canvas>
-      <div class="close">Все камеры</div>
-      <input type="range" min="0" max="100" value="50">
-    </div>
-  </div>
-  <script src="js/device.js"></script>
-  <script src="js/popup.js"></script>
+
+  <script src="Device.js"></script>
 </body>
 
 </html>

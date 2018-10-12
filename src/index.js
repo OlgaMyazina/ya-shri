@@ -1,6 +1,6 @@
 'use strict';
 
-const urlJSON = '../files/events.json';
+const urlJSON = 'files/events.json';
 
 fetch(urlJSON)
   .then(res => res.json())
@@ -8,12 +8,13 @@ fetch(urlJSON)
 
 function render(events) {
   const content = document.querySelector('.content');
-  console.log(content);
-  events.forEach(event => {
-    const eventElement = createEventElement(event);
-    content.appendChild(eventElement);
-  });
-  pageLoad();
+  if (content) {
+    events.forEach(event => {
+      const eventElement = createEventElement(event);
+      content.appendChild(eventElement);
+    });
+    pageLoad();
+  }
 }
 function createEventElement(event) {
   const tile = document.querySelector('.template').content.cloneNode(true);

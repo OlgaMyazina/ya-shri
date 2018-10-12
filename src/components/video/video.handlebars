@@ -1,0 +1,27 @@
+{{#each videos}}
+  <div class="device-wrap">
+    <div class="tile v">
+      <div class="title-tile-v">
+        <p>
+          {{title}}
+        </p>
+      </div>
+      <video class="{{class}} video" muted="" autoplay="" preload=""></video>
+      <div class="open">
+        <label>
+          Яркость
+          <input type="range" class="brightness" min="0" max="2" value="1" />
+        </label>
+        <label>
+          Контрастность
+          <input type="range" class="contrast" min="0" max="3" value="1" />
+        </label>
+        <div class="close close-button close-button-hover">
+          <p class="close close-title">
+            Все камеры
+          </p>
+        </div>
+      </div>
+    </div>
+  </div>
+{{/each}}

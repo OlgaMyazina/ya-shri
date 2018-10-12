@@ -527,7 +527,7 @@ footer {
   .nav-item:hover {
     opacity : 1;
   }
-  .tile:hover:before {
+  .tilehover:hover:before {
     content : '';
     position : absolute;
     background : url('../img/cross.svg') no-repeat;
@@ -536,7 +536,7 @@ footer {
     top : 1rem;
     right : 1rem;
   }
-  .tile:hover:after {
+  .tilehover:hover:after {
     content : '';
     position : absolute;
     background : url('../img/next.svg') no-repeat;
@@ -545,131 +545,16 @@ footer {
     bottom : 1rem;
     right : 1rem;
   }
-  .tile:hover {
+  .tilehover:hover {
     background : #f3f3f3;
     -webkit-box-shadow : 0 2px 6px 0 rgba(197, 186, 186, 0.5);
             box-shadow : 0 2px 6px 0 rgba(197, 186, 186, 0.5);
   }
-  .tile:hover .info-tile {
+  .tilehover:hover .info-tile {
     background : #f3f3f3;
   }
 
   .foo-menu-a:hover {
     color : #333333;
   }
-}
-
-.content-device {
-  display : grid;
-  grid-template-columns : repeat(2, 1fr);
-  grid-template-rows : 1fr 1fr;
-  grid-gap : 1.2rem;
-}
-
-.video {
-  width : 100%;
-  height : 70%;
-  border-radius : 1.25rem;
-}
-
-.title-tile-v {
-  text-align : center;
-  font-family : Arial-BoldMT;
-  font-size : 1.5rem;
-  color : #333333;
-  -o-text-overflow : ellipsis;
-     text-overflow : ellipsis;
-  overflow : hidden;
-  height : 3.6rem;
-  -webkit-line-clamp : 2;
-  display : -webkit-box;
-  -webkit-box-orient : vertical;
-}
-.v {
-  padding : 0.5rem;
-  height : 20rem;
-}
-
-.canvas-container {
-  position : fixed;
-  top : 0;
-  left : 0;
-  right : 0;
-  bottom : 0;
-  background-color : rgba(0, 0, 0, 0.3);
-  display : none;
-}
-
-.tile-canvas {
-  background-color : #fafafa;
-  border-radius : 1.25rem;
-  padding : 1rem;
-  width : 70%;
-  height : 70%;
-  border : 1px dotted red;
-  display : inline-block;
-}
-
-.opened .container {
-  -webkit-filter : blur(10px);
-          filter : blur(10px);
-}
-
-.opened .canvas-container {
-  display : block;
-}
-
-.tile-canvas {
-  /*width : 640px;
-  height : 320px;*/
-  border-radius : 1.25rem;
-  opacity : 0;
-  transform-origin : left top;
-  transform : scale(0.1);
-  position : absolute;
-  transition : top 1s, left 1s, transform 1s, opacity 1s;
-  transition-timing-function : ease-in;
-}
-
-.opened.tile-canvas {
-  opacity : 1;
-  transform : translate(-50%, -50%) scale(1);
-  top : 50% !important;
-  left : 50% !important;
-}
-/*
-.canvas {
-  width : 640px;
-  height : 320px;
-  border-radius : 1.25rem;
-  opacity : 0;
-  transform-origin : left top;
-  transform : scale(0.1);
-  position : absolute;
-  transition : top 1s, left 1s, transform 1s, opacity 1s;
-  transition-timing-function : ease-in;
-}
-
-.opened .canvas {
-  opacity : 1;
-  transform : translate(-50%, -50%) scale(1);
-  top : 50%;
-  left : 50%;
-}
-*/
-
-.close {
-  width : 7rem;
-  height : 5rem;
-  background-color : #fafafa;
-  display : inline-block;
-  position : absolute;
-  bottom : 1rem;
-  right : 1rem;
-  z-index : 1;
-  padding : 0.5rem;
-  border-radius : 0.75rem;
-  text-align : center;
-  border : 1px solid black;
-  z-index : 2;
 }
