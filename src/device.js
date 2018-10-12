@@ -118,9 +118,11 @@ document.addEventListener('click', e => {
       
     });*/
   }
-  //Если нажата кнопка "закрыть
+
+  /*
   if (classList.contains('close') || classList.contains('close-title')) {
     const tile = e.path[2].classList.contains('close') ? e.path[2] : e.path[3];
+    console.log(tile);
 
     //videoActive.width = `100%`;
     //videoActive.height = `70%`;
@@ -129,7 +131,16 @@ document.addEventListener('click', e => {
     //const videoOpen = tileCanvas.querySelector('.video');
     //elemVideo.append(videoOpen);
     //tileCanvas.removeChild(videoOpen);
-  }
+  }*/
+});
+
+//Определяем все кнопки, слушаем событие клика по кнопке
+const buttons = document.querySelectorAll('.close-button');
+buttons.forEach(button => {
+  button.addEventListener('click', e => {
+    e.path[2].classList.remove('opened');
+    document.body.classList.remove('opened');
+  });
 });
 
 /*Функция для работы с фильтром из input type range. Принимает первым аргументом все дом-элементы с заданным инпутом, создаёт слушателя на изменение, 
