@@ -558,3 +558,14 @@ footer {
     color : #333333;
   }
 }
+
+.volume {
+  width : 2rem;
+  height : 2rem;
+  background-image : url('../img/voiceoff.png');
+  background-size : cover;
+}
+.volume.up {
+  background-image : url('../img/voiceon.png');
+  background-size : cover;
+}

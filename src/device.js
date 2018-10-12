@@ -3,6 +3,7 @@
 import nav from './components/nav';
 import video from './components/video';
 import initVideo from './initVideo';
+import foo from './components/footer';
 
 /*Загружаем данные для меню */
 const dataNav = nav({
@@ -63,16 +64,33 @@ dataForVideo.forEach(video => {
   initVideo(document.querySelector(`.${video.class}`), video.url);
 });
 
-/*TODO: Наверное, timeout нужно переписать на requestAnimationFrame */
+/*Для футера */
+const dataFoo = foo({
+  items: [
+    {
+      url: '#',
+      title: 'Помощь'
+    },
+    {
+      url: '#',
+      title: 'Обратная связь'
+    },
+    {
+      url: '#',
+      title: 'Разработчикам'
+    },
+    {
+      url: 'files/license.pdf',
+      title: 'Условия использования'
+    }
+  ]
+});
+/*Получаем результат шаблонизатора и вставлем в html*/
+const fooDiv = document.querySelector('.foo-menu');
+fooDiv.innerHTML = dataFoo;
 
-const tileCanvas = document.querySelector('.tile-canvas');
-//const tile = document.querySelector('.title-tile-v');
-let videoActive;
-
-//запоминаем настройки (яркости, контрастности, громкости) для каждой камеры
-const settings = [];
-//от какого эл-та было видео
-let elemVideo;
+/************************* */
+/*Обработка видео - тайлов */
 
 document.addEventListener('click', e => {
   const classList = e.target.classList;
@@ -81,65 +99,25 @@ document.addEventListener('click', e => {
   if (classList.contains('video')) {
     const tile = e.path[1];
     if (!tile.classList.contains('opened')) {
-      //document.body.classList.add('opened');
-
       tile.classList.add('opened');
-      document.body.classList.remove('opened');
-      /*
-      const { top, left } = tile.getBoundingClientRect();
-      tile.style.display = 'block';
-      tile.style.top = top + 'px';
-      tile.style.left = left + 'px';
-      tile.style.height = tile.height + 100 + 'px';
-      tile.style.width = tile.width + 100 + 'px';
-      console.log(e.path[1]);*/
+      //stream = e.target;
     }
-    //tileCanvas.style.left = e.x + 'px';
-    //tileCanvas.style.top = e.y + 'px';
-    //videoActive = e.target;
-    //elemVideo = e.path[1];
-    //e.path[1].classList.add('opened');
-    //console.log(e.path[1]);
-    //tileCanvas.appendChild(videoActive);
-    //console.log(e);
-    // tileCanvas.style.transition = 'transform 2s ease-in 1s';
-    /*if (!tileCanvas.classList.contains('opened')) {
-      document.body.classList.add('opened');
-      /*const newVideo = videoActive.cloneNode();
-      initVideo(
-        newVideo,
-        'http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fsosed%2Fmaster.m3u8'
-      );*/
-    // elemVideo = videoActive.classList;
-    // tileCanvas.append(videoActive);
-    // tileCanvas.classList.add('opened');
-    //}
-    /*setTimeout(() => {
-      
-    });*/
   }
-
-  /*
-  if (classList.contains('close') || classList.contains('close-title')) {
-    const tile = e.path[2].classList.contains('close') ? e.path[2] : e.path[3];
-    console.log(tile);
-
-    //videoActive.width = `100%`;
-    //videoActive.height = `70%`;
-    tile.classList.remove('opened');
-    document.body.classList.remove('opened');
-    //const videoOpen = tileCanvas.querySelector('.video');
-    //elemVideo.append(videoOpen);
-    //tileCanvas.removeChild(videoOpen);
-  }*/
 });
 
 //Определяем все кнопки, слушаем событие клика по кнопке
 const buttons = document.querySelectorAll('.close-button');
 buttons.forEach(button => {
   button.addEventListener('click', e => {
-    e.path[2].classList.remove('opened');
-    document.body.classList.remove('opened');
+    const volume = document.querySelector('.opened .volume');
+    volume.classList.remove('up');
+    const video = document.querySelector('.opened video');
+    console.log(video);
+    video.muted = true;
+    const tile = document.querySelector('.tile.opened');
+    console.log(tile);
+    tile.classList.remove('opened');
+    analiser(null);
   });
 });
 
@@ -156,70 +134,98 @@ function filter(elem, nameFilter) {
 
 filter(document.querySelectorAll('.brightness'), 'brightness');
 filter(document.querySelectorAll('.contrast'), 'contrast');
-/*
-const brightness = document.querySelectorAll('.brightness');
-brightness.forEach(elem => {
-  elem.addEventListener('input', e => {
-    const video = document.querySelector('.tile.opened video');
-    //Изменение фильтра яркости от 0 до 2, введём коэффициент для шкалы 0-100 input range :
-    //const kBrightness = 0.02;
-    //const value = e.target.value * kBrightness;
-    video.style.filter = `brightness(${e.target.value})`;
+
+const volumes = document.querySelectorAll('.volume');
+volumes.forEach(volume => {
+  volume.addEventListener('click', e => {
+    const video = document.querySelector('.opened video');
+    const volumeUp = volume.classList.contains('up');
+    video.muted = volumeUp;
+    volume.classList.toggle('up');
+
+    console.log(video);
+    if (volumeUp) {
+      const chart = document.querySelector('.opened .chart');
+      analiser(video, chart);
+    }
+    console.log('click');
   });
 });
-const contrast = document.querySelectorAll('.contrast');
-contrast.forEach(elem => {
-  elem.addEventListener('input', e => {
-    const video = document.querySelector('.tile.opened video');
-    //Изменение фильтра контрасности от 0 до 3, введём коэффициент для шкалы 0-100 input range :
-    //const kContrast = 0.03;
-    //const value = e.target.value * kContrast;
-    video.style.filter = `contrast(${e.target.value})`;
-  });
-});
-*/
-/*
-brightness.addEventListener('change', e => {
-  console.log(`change`);
-  console.log(e.target.value);
-});*/
+function analiser(stream, chart) {
+  if (stream) {
+    var AudioContext = window.AudioContext || window.webkitAudioContext;
+    var ctx = new AudioContext();
+    var source = ctx.createMediaElementSource(stream);
+    var analyser = ctx.createAnalyser();
+    var processor = ctx.createScriptProcessor(2048, 1, 1);
+    source.connect(analyser);
+    source.connect(processor);
+    analyser.connect(ctx.destination);
+    processor.connect(ctx.destination);
+    analyser.fftSize = 32;
+    var data = new Uint8Array(analyser.frequencyBinCount);
+    processor.onaudioprocess = function() {
+      analyser.getByteFrequencyData(data);
+      console.log(data);
+      /*Для отображения графика */
 
-/*
-const canvas = document.querySelector('.canvas');
-const context = canvas.getContext('2d');
-const back = document.createElement('canvas');
-const backcontext = back.getContext('2d');
-
-function init() {
-  //задаём отступы
-  const paddingConst = 40;
-
-  back.width = canvas.width = videoActive.width = tileCanvas.offsetWidth - paddingConst;
-  back.height = canvas.height = videoActive.height = tileCanvas.offsetHeight - paddingConst;
-}
-
-function animate() {
-  draw(videoActive, context, backcontext, canvas.width, canvas.height);
-  stopId = requestAnimationFrame(animate);
-}
-
-function draw(v, c, bc, w, h) {
-  // First, draw it into the backing canvas
-  bc.drawImage(v, 0, 0, w, h);
-  // Grab the pixel data from the backing canvas
-  var idata = bc.getImageData(0, 0, w, h);
-  var data = idata.data;
-  // Loop through the pixels, turning them grayscale
-  for (let i = 0; i < idata.data.length; i += 4) {
-    var r = idata.data[i];
-    var g = idata.data[i + 1];
-    var b = idata.data[i + 2];
-    var brightness = (3 * r + 4 * g + b) >>> 3;
-    idata.data[i] = brightness;
-    idata.data[i + 1] = brightness;
-    idata.data[i + 2] = brightness;
+      //коэффициент
+      const kData = 20;
+      //Стобцы графика
+      const bar4 = chart.querySelector('.bar-4');
+      const bar3 = chart.querySelector('.bar-2');
+      const bar2 = chart.querySelector('.bar-3');
+      const bar1 = chart.querySelector('.bar-1');
+      //объявление и инициализация значений для столбцов графика
+      let bar4Volume = 0,
+        bar3Volume = 0,
+        bar2Volume = 0,
+        bar1Volume = 0;
+      //считаем значение
+      for (let i = 0; i < 4; i++) {
+        bar4Volume += data[i] / kData;
+      }
+      for (let i = 4; i < 8; i++) {
+        bar3Volume += data[i] / kData;
+      }
+      for (let i = 8; i < 12; i++) {
+        bar2Volume += data[i] / kData;
+      }
+      for (let i = 12; i < 16; i++) {
+        bar1Volume += data[i] / kData;
+      }
+      //отображаем значения на графике
+      bar4.setAttribute('width', bar4Volume);
+      bar3.setAttribute('width', bar3Volume);
+      bar2.setAttribute('width', bar2Volume);
+      bar1.setAttribute('width', bar1Volume);
+    };
   }
-  // Draw the pixels onto the visible canvas
-  c.putImageData(idata, 0, 0);
 }
-*/
+
+/*
+
+var videoEl = document.getElementsByTagName('video')[0],
+            playBtn = document.getElementById('playBtn'),
+            vidControls = document.getElementById('controls'),
+            volumeControl = document.getElementById('volume'),
+            timePicker = document.getElementById('timer');
+         
+
+volumeControl.addEventListener('input', function () {
+         
+  videoEl.volume = volumeControl.value;
+}, false);
+/*Вначале в коде JavaScript мы получаем все элементы. 
+Затем, если браузер поддерживает видео и может его воспроизвести, 
+то обрабатываем событие canplaythrough, устанавливая уровень звука и удаляя класс hidden: */
+/*videoEl.addEventListener('canplaythrough', function () {
+  vidControls.classList.remove('hidden');
+  videoEl.volume = volumeControl.value;
+}, false);
+/*Обрабатывая событие input, которое возникает при изменении значения ползунка,
+ мы можем синхронизировать изменение ползунка и громкость видео:*/
+/*volumeControl.addEventListener('input', function () {
+         
+  videoEl.volume = volumeControl.value;
+}, false);*/
