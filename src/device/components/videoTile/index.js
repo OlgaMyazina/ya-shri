@@ -101,7 +101,6 @@ export default class Tile {
       this.source = this.ctx.createMediaElementSource(this.videoEl);
       this.analyser = this.ctx.createAnalyser();
       this.processor = this.ctx.createScriptProcessor(256, 1, 1);
-      console.log(this.source);
     }
   }
 
