@@ -563,9 +563,11 @@ footer {
   width : 2rem;
   height : 2rem;
   background-image : url('../img/voiceoff.png');
-  background-size : cover;
+  background-size : contain;
+  background-repeat : no-repeat;
 }
 .volume.up {
   background-image : url('../img/voiceon.png');
-  background-size : cover;
+  background-size : contain;
+  background-repeat : no-repeat;
 }

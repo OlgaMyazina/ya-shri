@@ -59,9 +59,15 @@ const dataVideo = video({
 /*Получаем результат шаблонизатора и вставлем в html*/
 const videoDiv = document.querySelector('.content-device');
 videoDiv.innerHTML = dataVideo;
-/*Инициализируем видео */
+/*Инициализируем видео и добавляем на него обработчик*/
 dataForVideo.forEach(video => {
   initVideo(document.querySelector(`.${video.class}`), video.url);
+  video.addEventListener(e => {
+    const tile = e.path[1];
+    if (!tile.classList.contains('opened')) {
+      tile.classList.add('opened');
+    }
+  });
 });
 
 /*Для футера */
@@ -92,6 +98,7 @@ fooDiv.innerHTML = dataFoo;
 /************************* */
 /*Обработка видео - тайлов */
 
+/*
 document.addEventListener('click', e => {
   const classList = e.target.classList;
 
@@ -104,6 +111,7 @@ document.addEventListener('click', e => {
     }
   }
 });
+*/
 
 //Определяем все кнопки, слушаем событие клика по кнопке
 const buttons = document.querySelectorAll('.close-button');

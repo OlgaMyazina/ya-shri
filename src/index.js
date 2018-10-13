@@ -16,6 +16,7 @@ function render(events) {
     pageLoad();
   }
 }
+
 function createEventElement(event) {
   const tile = document.querySelector('.template').content.cloneNode(true);
   tile.querySelector('.tile').classList.add(`${event.size}`);

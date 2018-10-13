@@ -5,7 +5,7 @@ const devMode = process.env.NODE_ENV !== 'production';
 module.exports = {
   entry: {
     Home: './src/index.js',
-    Device: './src/device.js'
+    Device: './src/device/device.js'
   },
   output: {
     path: path.resolve(__dirname, './public'),

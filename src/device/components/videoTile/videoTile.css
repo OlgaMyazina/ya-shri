@@ -50,7 +50,8 @@
 .v {
   padding : 0.5rem;
   height : 20rem;
-  transition : offset-position 5s;
+  transition : width, height, top, left 10s;
+  /*transition : offset-position 5s;*/
 }
 .opened.v {
   top : 50%;
@@ -63,7 +64,7 @@
   max-height : 80%;
   z-index : 1;
   position : absolute;
-  /*transition : object-position 5s;*/
+  /*transition : all 10s;*/
 }
 
 .close-button {
@@ -85,20 +86,15 @@
 
 .open {
   display : none;
+  justify-content : space-between;
+}
+.brightness,
+.label-brightness,
+.contrast,
+.label-contrast {
+  width : 7rem;
 }
 
 .opened .open {
   display : flex;
-  justify-content : space-between;
 }
-
-/*
-.volume {
-  width : 3rem;
-  height : 3rem;
-  background-image : url('../img/voiceoff.png');
-}
-.volume.up {
-  background-image : url('../img/voiceon.png');
-}
-*/
