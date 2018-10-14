@@ -16,17 +16,12 @@
 */
 
 const data = require('./data/events');
-const dataTypes = require('./data/config');
+const config = require('./data/config');
 
 const express = require('express');
 const app = express();
 const port = 8000;
 let timeServerStart;
-
-app.use((request, response, next) => {
-  console.log(request.headers);
-  next();
-});
 
 app.get('/status', (request, response) => {
   response.send(`${timeDiff(timeServerStart, Date.now())}`);
@@ -34,38 +29,17 @@ app.get('/status', (request, response) => {
 
 app.get('/api/events', (request, response) => {
   let { events } = data;
-  //Если есть параметры
-  if (request.query) {
-    //Если это type
-    if (request.query.type) {
-      const { types } = dataTypes;
-      const queryTypes = request.query.type.split(':');
-      //проверяем типы из запроса queryTypes на наличие в конф. types
-      const unCorrectTypes = queryTypes.find(type => !types.includes(type));
-      console.log(`correctTypes ${unCorrectTypes}`);
-      if (unCorrectTypes) {
-        response.status(400).send(`incorrect type`);
-      } else {
-        const eventsNew = events.filter(event => event.type === queryTypes[0]);
-        response.send(queryTypes.map(type => events.filter(event => event.type === type)));
-      }
-    }
+  //Если type есть в параметрах запроса
+  if (request.query.type) {
+    const expectedTypes = config.types;
+    const queryTypes = request.query.type.split(':');
+    //проверяем типы из запроса queryTypes на наличие в конф. types
+    const hasIncorrectType = queryTypes.some(type => !expectedTypes.includes(type));
+    hasIncorrectType
+      ? response.status(400).send(`incorrect type`)
+      : (events = events.filter(event => queryTypes.includes(event.type)));
   }
-  app.use((err, request, response, next) => {
-    // логирование ошибки, пока просто console.log
-    console.log(err);
-    response.status(500).send(`Something broke!`);
-    next();
-  });
-  /*
-  console.log(request.params);
-  console.log(request.query);
-  console.log(request.body);
-  */
-  response.json({
-    events
-  });
-  console.log(request.params);
+  response.json({ events });
 });
 
 app.use(function(req, res) {
@@ -80,6 +54,24 @@ app.listen(port, err => {
   console.log(`server listening on ${port}`);
 });
 
+function timeDiff(timeStart, timeCurrent) {
+  const tDiff = new Date(timeCurrent - timeStart);
+  return [
+    `0${tDiff.getUTCHours()}`.slice(-2),
+    `0${tDiff.getUTCMinutes()}`.slice(-2),
+    `0${tDiff.getUTCSeconds()}`.slice(-2)
+  ].join(':');
+}
+
+/*
+app.use((err, request, response, next) => {
+  // логирование ошибки, пока просто console.log
+  console.log(err);
+  response.status(500).send(`Something broke!`);
+  next();
+});
+*/
+
 /*
 function timeFormat(date) {
   options = {
@@ -91,13 +83,3 @@ function timeFormat(date) {
   return new Intl.DateTimeFormat('ru-RU', options).format(date);
 }
 */
-
-function timeDiff(timeStart, timeCurrent) {
-  const tDiff = new Date(timeCurrent - timeStart);
-  console.log(tDiff);
-  return [
-    `0${tDiff.getUTCHours()}`.slice(-2),
-    `0${tDiff.getUTCMinutes()}`.slice(-2),
-    `0${tDiff.getUTCSeconds()}`.slice(-2)
-  ].join(':');
-}
