@@ -19,9 +19,13 @@ const data = require('./data/events');
 const config = require('./data/config');
 
 const express = require('express');
+const cors = require('cors');
 const app = express();
+
 const port = 8000;
 let timeServerStart;
+
+app.use(cors());
 
 app.get('/status', (request, response) => {
   response.send(`${timeDiff(timeServerStart, Date.now())}`);
@@ -62,6 +66,9 @@ function timeDiff(timeStart, timeCurrent) {
     `0${tDiff.getUTCSeconds()}`.slice(-2)
   ].join(':');
 }
+
+/*page_size=10&page=2
+offset & limit*/
 
 /*
 app.use((err, request, response, next) => {
