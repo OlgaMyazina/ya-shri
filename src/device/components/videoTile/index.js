@@ -44,7 +44,7 @@ export default class Tile {
 
   addEventToVideo() {
     this.videoEl.addEventListener('click', () => {
-      if (!this.tile.classList.contains('opened')) {
+      if (!document.querySelector('.opened')) {
         this.tile.classList.add('opened');
         this.initAudioContext();
       }
