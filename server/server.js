@@ -15,6 +15,7 @@
 позволяющее выводить события постранично.
 Д
 */
+const data = require('./data/events');
 
 const express = require('express');
 const app = express();
@@ -42,6 +43,11 @@ app.get('/status', (request, response) => {
       now
     )}`
   );
+});
+
+app.get('/api/events', (request, response) => {
+  let { events } = data;
+  response.send({ events });
 });
 
 app.use(function(req, res) {
