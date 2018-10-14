@@ -8,15 +8,13 @@ fetch(urlJSON)
 
 function render(events) {
   const content = document.querySelector('.content');
-  if (content) {
-    events.forEach(event => {
-      const eventElement = createEventElement(event);
-      content.appendChild(eventElement);
-    });
-    pageLoad();
-  }
+  console.log(content);
+  events.forEach(event => {
+    const eventElement = createEventElement(event);
+    content.appendChild(eventElement);
+  });
+  pageLoad();
 }
-
 function createEventElement(event) {
   const tile = document.querySelector('.template').content.cloneNode(true);
   tile.querySelector('.tile').classList.add(`${event.size}`);
@@ -50,11 +48,24 @@ function createEventElement(event) {
     if (data.type === 'graph') {
       //вставляем картинку-заглушку
       const graph = document.querySelector('.template-graph').content.cloneNode(true);
-      graph.querySelector('.graph').style.background = ` url('../img/Richdata.png') no-repeat`;
-      graph.querySelector(
-        '.graph'
-      ).style.backgroundImage = `-webkit-image-set( url('../img/Richdata.png') 1x, url('img/Richdata@2x.png') 2x, url('img/Richdata@3x.png') 3x )`;
-      graph.querySelector('.graph').style.backgroundPosition = `center bottom`;
+      //создаём тег picture
+      const picture = document.createElement('picture');
+
+      //создаём тег source
+      const source = document.createElement('source');
+      source.setAttribute('srcset', 'img/Richdata.svg');
+      source.setAttribute('type', 'image/svg+xml');
+      //создаём тег img
+      const img = document.createElement('img');
+      img.setAttribute('src', 'img/Richdata.png');
+      img.setAttribute('srcset', 'img/Richdata@2x.png 2x, img/Richdata@3x.png 3x');
+      img.setAttribute('alt', 'График энергопотребления');
+      //добавляем img->source
+      source.appendChild(img);
+      //добавляем source->picture
+      picture.appendChild(source);
+      //добавляем picture->.graph
+      graph.querySelector('.graph').appendChild(picture);
       tile.querySelector('.data-tile').appendChild(graph);
     }
     //Нашли изображение
