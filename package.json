@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --mode development --content-base=public --port 3000 ",
+    "dev": "webpack-dev-server --mode development --content-base=public --port 3000",
     "build": "webpack --mode production",
     "deploy": "gh-pages -d public",
     "devServ": "nodemon server/server.js"
