@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--добавлять тег, запрещающий индексацию страницы:-->
+  <meta name="robots" content="noindex">
+  <title>Яндекс.Дом</title>
+  <link rel="shortcut icon" href="img/icon.jpg">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- include PEP -->
+  <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+
+</head>
+
+<body>
+  <header>
+    <a href="#" class="logo-href">
+      <picture class="logo">
+        <source srcset="img/logo.svg" type="image/svg+xml">
+        <img src="img/logo@1x.png" srcset="img/logo@2x.png 2x" alt="Яндекс дом">
+      </picture>
+    </a>
+
+    <input type="checkbox" id="checkbox_toggle">
+    <label for="checkbox_toggle" class="menu-toggle">
+      <picture class="menu-icon">
+        <source srcset="img/icon_list_m@1x.svg" type="image/svg+xml">
+        <img src="img/icon_list_m.png" srcset="img/icon_list_m@2x.png 2x" alt="menu">
+      </picture>
+    </label>
+
+    <nav id="nav" class="nav">
+      <ul class="nav-list">
+        <li>
+          <a href="#" class="font-arial-bold nav-item">События</a>
+        </li>
+        <li>
+          <a href="#" class="font-arial-bold nav-item">Сводка</a>
+        </li>
+        <li>
+          <a href="device.html" class="font-arial-bold nav-item">Устройства</a>
+        </li>
+        <li>
+          <a href="#" class="font-arial-bold nav-item">Сценарии</a>
+        </li>
+      </ul>
+    </nav>
+
+
+
+  </header>
+
+  <main>
+    <div class="container">
+      <h1 class="font-h1 main-h1">Лента событий</h1>
+      <div class="content">
+
+
+
+      </div>
+    </div>
+  </main>
+
+  <footer>
+    <ul class="foo-menu">
+      <li class="foo-menu-item">
+        <a href="#" class="foo-menu-a">Помощь</a>
+      </li>
+      <li class="foo-menu-item">
+        <a href="#" class="foo-menu-a">Обратная связь</a>
+      </li>
+      <li class="foo-menu-item">
+        <a href="#" class="foo-menu-a">Разработчикам</a>
+      </li>
+      <li class="foo-menu-item">
+        <a href="files/license.pdf" target="_blank" class="foo-menu-a">Условия использования</a>
+      </li>
+    </ul>
+    <div class="foo-copy">
+      <p class="foo-copy-p">© 2001–2017 ООО «Яндекс»</p>
+    </div>
+  </footer>
+  <template class="template">
+    <div class="tile tilehover">
+      <div class="type-tile">
+        <div class="icon-tile"></div>
+        <div class="title-tile"></div>
+        <div class="source-tile"></div>
+        <div class="time-tile"></div>
+      </div>
+      <div class="info-tile">
+        <div class="description-tile"></div>
+        <div class="data-tile"></div>
+      </div>
+    </div>
+
+  </template>
+  <template class="template-audio">
+    <audio controls>
+      <source src="#">
+    </audio>
+    <div class="cover"></div>
+    <div class="artist"></div>
+    <input name="track-range" type="range" min="0" max="100" step="1" value="50" class="track">
+    <label for="track-range" class="length"></label>
+    <div class="prev"></div>
+    <div class="next"></div>
+    <input name="volume-range" type="range" min="0" max="100" step="1" value="50" class="volume-range">
+    <label for="volume-range" class="volume"></label>
+  </template>
+  <template class="template-graph">
+    <div class="graph"></div>
+  </template>
+  <template class="template-image">
+  </template>
+  <template class="template-buttons">
+    <div class="buttons"></div>
+  </template>
+  <script src="Home.js"></script>
+</body>
+
+</html>
