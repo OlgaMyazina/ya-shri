@@ -1,20 +1,3 @@
-/*
-Написать сервер на express который будет подниматься на 8000
-порту и обрабатывать два роута:
-1. /status — должен выдавать время, прошедшее с запуска
-сервера в формате hh:mm:ss
-2. /api/events — должен отдавать содержимое файла events.json.
-При передаче get-параметра type включается фильтрация по
-типам событий. При передаче некорректного type — отдавать
-статус 400 "incorrect type". (/api/events?type=info:critical)
-Все остальные роуты должны отдавать <h1>Page not found</h1>,
-с корректным статусом 404.
-
-Перейти на POST-параметры.
-Сделать пагинацию событий — придумать и реализовать API,
-позволяющее выводить события постранично.
-*/
-
 const data = require('./data/events');
 const config = require('./data/config');
 
@@ -43,6 +26,13 @@ app.get('/api/events', (request, response) => {
       ? response.status(400).send(`incorrect type`)
       : (events = events.filter(event => queryTypes.includes(event.type)));
   }
+  //Если не указан limit, то будет 10
+  //Если не указана page, то будет 1
+  if (request.query.page) {
+    const limit = request.query.limit ? parseInt(request.query.limit) : config.pageLimit;
+    const page = parseInt(request.query.page);
+    events = events.slice(limit * (page - 1), limit * page);
+  }
   response.json({ events });
 });
 
@@ -66,9 +56,6 @@ function timeDiff(timeStart, timeCurrent) {
     `0${tDiff.getUTCSeconds()}`.slice(-2)
   ].join(':');
 }
-
-/*page_size=10&page=2
-offset & limit*/
 
 /*
 app.use((err, request, response, next) => {
