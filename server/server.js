@@ -30,7 +30,7 @@ app.get('/api/events', (request, response) => {
   //Если не указан limit, то будет pageLimit= 10
   //Если не указана page, то будет 1
   if (request.query.page) {
-    const limit = request.query.limit ? parseInt(request.query.limit) : pageLimit;
+    const limit = request.query.limit ? parseInt(request.query.limit, 10) : pageLimit;
     const page = parseInt(request.query.page);
     events = events.slice(limit * (page - 1), limit * page);
   }
