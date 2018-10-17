@@ -1,5 +1,4 @@
-const data = require('./data/events');
-
+const fs = require('fs');
 const express = require('express');
 const cors = require('cors');
 const app = express();
@@ -15,7 +14,7 @@ app.get('/status', (request, response) => {
 });
 
 app.get('/api/events', (request, response) => {
-  let { events } = data;
+  let { events } = JSON.parse(fs.readFileSync(__dirname + '/data/events.json', 'utf8'));
   //Если type есть в параметрах запроса
   if (request.query.type) {
     //множество типов. Смотрим тип у каждого события и добавляем в множество
