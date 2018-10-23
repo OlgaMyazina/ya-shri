@@ -1,6 +1,6 @@
 'use strict';
 
-const urlJSON = 'data/events.json';
+const urlJSON = 'http://localhost:8000/api/events';
 
 fetch(urlJSON)
   .then(res => res.json())

@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "webpack-dev-server --mode development --content-base=public --port 3000",
+    "dev": "webpack-dev-server --mode development --content-base=public --port 3000 & DEBUG=express:* nodemon server/server.js",
     "build": "webpack --mode production",
     "deploy": "gh-pages -d public"
   },
@@ -20,12 +20,15 @@
     "gh-pages": "^2.0.1",
     "handlebars-loader": "^1.7.0",
     "mini-css-extract-plugin": "^0.4.4",
+    "nodemon": "^1.18.4",
     "style-loader": "^0.23.1",
     "webpack": "^4.20.2",
     "webpack-cli": "^3.1.2",
     "webpack-dev-server": "^3.1.9"
   },
   "dependencies": {
+    "cors": "^2.8.4",
+    "express": "^4.16.4",
     "handlebars": "^4.0.12"
   }
 }
