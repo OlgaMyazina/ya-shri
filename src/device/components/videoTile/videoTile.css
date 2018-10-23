@@ -1,0 +1,113 @@
+.tile {
+  background : #fafafa;
+  border-radius : 1.25rem;
+  position : relative;
+  grid-auto-rows : -webkit-min-content;
+  grid-auto-rows :         min-content;
+}
+
+.title-tile {
+  font-family : Arial-BoldMT;
+  font-size : 1.5rem;
+  color : #333333;
+  text-align : center;
+  -o-text-overflow : ellipsis;
+     text-overflow : ellipsis;
+  overflow : hidden;
+  height : 3.6rem;
+  -webkit-line-clamp : 2;
+  display : -webkit-box;
+  -webkit-box-orient : vertical;
+}
+
+.content-device {
+  display : grid;
+  grid-template-columns : repeat(2, 1fr);
+  grid-template-rows : 1fr 1fr;
+  grid-gap : 1.2rem;
+}
+
+.video {
+  width : 100%;
+  height : 80%;
+  border-radius : 1.25rem;
+}
+
+.title-tile-v {
+  text-align : center;
+  font-family : Arial-BoldMT;
+  font-size : 1.5rem;
+  color : #333333;
+  -o-text-overflow : ellipsis;
+     text-overflow : ellipsis;
+  overflow : hidden;
+  height : 3.6rem;
+  -webkit-line-clamp : 2;
+  display : -webkit-box;
+  -webkit-box-orient : vertical;
+}
+
+.v {
+  padding : 0.5rem;
+  height : 20rem;
+  transition : width, height, top, left 10s;
+  /*transition : offset-position 5s;*/
+}
+.opened.v {
+  top : 50%;
+  left : 50%;
+  -webkit-transform : translate(-50%, -50%);
+          transform : translate(-50%, -50%);
+  width : 90%;
+  height : 90%;
+  max-width : 100%;
+  max-height : 80%;
+  z-index : 1;
+  position : absolute;
+  transition : width, height, top, left 10s;
+}
+
+.close-button {
+  width : 7rem;
+  height : 3rem;
+  background-color : #e5e5e5;
+  bottom : 1rem;
+  right : 1rem;
+  z-index : 1;
+  padding : 0.5rem;
+  border-radius : 0.75rem;
+  text-align : center;
+  z-index : 2;
+}
+
+.close-button-hover:hover {
+  background-color : #ffd93e;
+}
+
+.open {
+  display : none;
+  justify-content : space-between;
+}
+.brightness,
+.label-brightness,
+.contrast,
+.label-contrast {
+  width : 7rem;
+}
+
+.opened .open {
+  display : flex;
+}
+
+@media only screen and (max-width: 800px) {
+  .content-device {
+    grid-template-columns : 1fr;
+  }
+  .opened.v {
+    position : relative;
+    height : auto;
+  }
+  .open {
+    flex-wrap : wrap;
+  }
+}

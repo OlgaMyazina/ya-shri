@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="ru">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <!--добавлять тег, запрещающий индексацию страницы:-->
+  <meta name="robots" content="noindex">
+  <title>Яндекс.Дом</title>
+  <link rel="shortcut icon" href="img/icon.jpg">
+  <link rel="stylesheet" href="css/style.css">
+  <!-- добавили PEP для поддерки poiner event -->
+  <script src="https://code.jquery.com/pep/0.4.3/pep.js"></script>
+  <!-- для потокового видео -->
+  <script src="https://cdn.jsdelivr.net/npm/hls.js@latest"></script>
+</head>
+
+<body>
+
+  <header>
+    <a href="index.html" class="logo-href">
+      <picture class="logo">
+        <source srcset="img/logo.svg" type="image/svg+xml">
+        <img src="img/logo@1x.png" srcset="img/logo@2x.png 2x" alt="Яндекс дом">
+      </picture>
+    </a>
+
+    <input type="checkbox" id="checkbox_toggle">
+    <label for="checkbox_toggle" class="menu-toggle">
+      <picture class="menu-icon">
+        <source srcset="img/icon_list_m@1x.svg" type="image/svg+xml">
+        <img src="img/icon_list_m.png" srcset="img/icon_list_m@2x.png 2x" alt="menu">
+      </picture>
+    </label>
+
+    <nav id="nav" class="nav">
+      <ul class="nav-list"></ul>
+    </nav>
+  </header>
+
+  <main>
+    <div class="container">
+      <h1 class="font-h1 main-h1">Устройства</h1>
+      <div class="content-device"></div>
+    </div>
+  </main>
+
+  <footer>
+    <ul class="foo-menu"></ul>
+    <div class="foo-copy">
+      <p class="foo-copy-p">© 2001–2017 ООО «Яндекс»</p>
+    </div>
+  </footer>
+
+  <script src="Device.js"></script>
+</body>
+
+</html>

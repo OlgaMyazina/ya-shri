@@ -536,7 +536,7 @@ footer {
   .nav-item:hover {
     opacity : 1;
   }
-  .tile:hover:before {
+  .tilehover:hover:before {
     content : '';
     position : absolute;
     background : url('../img/cross.svg') no-repeat;
@@ -545,7 +545,7 @@ footer {
     top : 1rem;
     right : 1rem;
   }
-  .tile:hover:after {
+  .tilehover:hover:after {
     content : '';
     position : absolute;
     background : url('../img/next.svg') no-repeat;
@@ -554,16 +554,29 @@ footer {
     bottom : 1rem;
     right : 1rem;
   }
-  .tile:hover {
+  .tilehover:hover {
     background : #f3f3f3;
     -webkit-box-shadow : 0 2px 6px 0 rgba(197, 186, 186, 0.5);
             box-shadow : 0 2px 6px 0 rgba(197, 186, 186, 0.5);
   }
-  .tile:hover .info-tile {
+  .tilehover:hover .info-tile {
     background : #f3f3f3;
   }
 
   .foo-menu-a:hover {
     color : #333333;
   }
+}
+
+.volume {
+  width : 2rem;
+  height : 2rem;
+  background-image : url('../img/voiceoff.png');
+  background-size : contain;
+  background-repeat : no-repeat;
+}
+.volume.up {
+  background-image : url('../img/voiceon.png');
+  background-size : contain;
+  background-repeat : no-repeat;
 }
