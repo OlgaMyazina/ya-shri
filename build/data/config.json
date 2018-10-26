@@ -1,0 +1,4 @@
+{
+  "types": ["info", "critical"],
+  "pageLimit": 10
+}

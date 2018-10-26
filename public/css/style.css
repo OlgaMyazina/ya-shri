@@ -1,4 +1,4 @@
-/*Сброс стилей, лучше подключить normolize.css*/
+/*TODO: подключить normolize.css*/
 * {
   margin : 0;
   padding : 0;
@@ -25,7 +25,7 @@ body {
   'footer';
 }
 
-header {
+.header {
   position : fixed;
   left : 0;
   top : 0;
@@ -93,7 +93,7 @@ input[type='checkbox'] {
 }
 
 @media only screen and (max-width: 599px) {
-  header {
+  .header {
     height : 3rem;
     border : initial;
     grid-template : 'logo icon'
@@ -174,18 +174,6 @@ main {
   grid-auto-rows : -webkit-min-content;
   grid-auto-rows :         min-content;
 }
-.type-tile[type='critical'] {
-  background : #db5341;
-  border-radius : 20px 20px 0 0;
-  color : white;
-  z-index : -1;
-}
-.type-tile[type='critical'] > * {
-  color : white;
-}
-.type-tile[type='critical'] > .icon-tile {
-  fill : white;
-}
 
 .info-tile {
   background : #fafafa;
@@ -213,19 +201,6 @@ main {
   padding-top : 0.7rem;
 }
 
-.type-tile {
-  display : -ms-grid;
-  display :     grid;
-  grid-template-columns : 3rem 1fr 1fr 3rem;
-  grid-template-rows : 3.6rem auto;
-  grid-gap : 1rem 1rem;
-  padding : 1.25rem 1.25rem 1.25rem;
-}
-.icon-tile {
-  width : 3rem;
-  grid-column : 1;
-  background-repeat : no-repeat;
-}
 .title-tile {
   font-family : Arial-BoldMT;
   font-size : 1.5rem;

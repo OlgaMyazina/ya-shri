@@ -1,0 +1,28 @@
+.type-tile {
+  display : -ms-grid;
+  display :     grid;
+  grid-template-columns : 3rem 1fr 1fr 3rem;
+  grid-template-rows : 3.6rem auto;
+  grid-gap : 1rem 1rem;
+  padding : 1.25rem 1.25rem 1.25rem;
+}
+
+.type-tile[type='critical'] {
+  background : #db5341;
+  border-radius : 20px 20px 0 0;
+  color : white;
+  z-index : -1;
+}
+.type-tile[type='critical'] > * {
+  color : white;
+}
+.type-tile[type='critical'] > .icon-tile {
+  fill : white;
+}
+
+.icon-tile {
+  width : 3rem;
+  height : 3rem;
+  grid-column : 1;
+  background-repeat : no-repeat;
+}
