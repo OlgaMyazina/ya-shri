@@ -7,7 +7,7 @@
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "webpack-dev-server --mode development --content-base=public --port 3000&DEBUG=express:* nodemon build/index.js",
     "build": "webpack --mode production",
-    "deploy": "gh-pages -d public",
+    "deploy": "EVENTS_URL=data/events.json webpack --mode production && gh-pages -d public",
     "prepublish": "npm run compile"
   },
   "author": "",

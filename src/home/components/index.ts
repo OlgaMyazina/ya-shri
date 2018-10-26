@@ -69,9 +69,7 @@ function createEventElement(event: DeviceEvent) {
   if (data) {
     //Если есть data, добавляем класс visable элементу info-tile
     const tileInfo = <HTMLElement>tile.querySelector('.info-tile');
-    //if (tileInfo) {
     tileInfo.classList.add('visable');
-    //}
 
     //Если нашли трек, то используем шаблон аудио
     if (isEventDataAudio(data)) {
@@ -80,10 +78,8 @@ function createEventElement(event: DeviceEvent) {
       );
       fillTemplateAudio(audio, data);
       const dataTile = <HTMLElement>tile.querySelector('.data-tile');
-      //if (dataTile) {
       dataTile.classList.add('data-audio');
       dataTile.appendChild(audio);
-      //}
     }
 
     //Нашли тип граф
@@ -94,9 +90,7 @@ function createEventElement(event: DeviceEvent) {
       );
       fillTemplateGraph(graph, data);
       const dataTile = <HTMLElement>tile.querySelector('.data-tile');
-      //if (dataTile) {
       dataTile.appendChild(graph);
-      //}
     }
     //Нашли изображение
     if (isEventDataImage(data)) {
@@ -108,11 +102,9 @@ function createEventElement(event: DeviceEvent) {
       const labels = createLabelControl();
       image.appendChild(imgDiv);
       const dataTile = <HTMLElement>tile.querySelector('.data-tile');
-      //if (dataTile) {
       dataTile.classList.add('camera');
       dataTile.appendChild(image);
       dataTile.appendChild(labels);
-      //}
     }
     //Нашли кнопки
     if (isEventDataButtons(data)) {
@@ -127,9 +119,7 @@ function createEventElement(event: DeviceEvent) {
         }
       });
       const dataTile = <HTMLElement>tile.querySelector('.data-tile');
-      //if (dataTile) {
       dataTile.appendChild(btns);
-      //}
     }
   }
   return tile;

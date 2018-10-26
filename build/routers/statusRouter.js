@@ -4,7 +4,6 @@ const express_1 = require("express");
 const router = express_1.Router();
 const timeServerStart = Date.now();
 function timeDiff(timeStart, timeCurrent) {
-    console.log('here->');
     const tDiff = new Date(timeCurrent - timeStart);
     return [
         `0${tDiff.getUTCHours()}`.slice(-2),

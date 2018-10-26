@@ -1,5 +1,4 @@
 import Tile from './components/videoTile/index';
-//import VideoDataElement from './components/videoTile/index';
 
 import picture from '../components/picture/picture.hbs';
 import nav from '../components/nav/index';

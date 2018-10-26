@@ -1,7 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 const express_1 = require("express");
-//import { events } from './data/events.json';
 const fs = require("fs");
 const path = require('path');
 const router = express_1.Router();

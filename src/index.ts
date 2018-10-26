@@ -1,7 +1,7 @@
 import * as renderEvents from './home/components/index';
 
-const urlJSON = 'http://localhost:8000/api/events';
+declare const EVENTS_URL: string;
 
-fetch(urlJSON)
+fetch(EVENTS_URL)
   .then(res => res.json())
   .then(data => renderEvents.render(data.events));

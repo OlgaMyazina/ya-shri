@@ -1,7 +1,5 @@
 import * as Hls from 'hls.js';
-
 import * as videoTemplate from './videoTile.handlebars';
-//import videoTemplate from './videoTile.hbs';
 import './videoTile.css';
 import * as interfaceDataElement from '../../device';
 

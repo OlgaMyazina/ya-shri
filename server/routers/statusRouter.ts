@@ -1,11 +1,9 @@
 import { Router, Request, Response, NextFunction } from 'express';
 
 const router: Router = Router();
-
 const timeServerStart: number = Date.now();
 
 function timeDiff(timeStart: number, timeCurrent: number) {
-  console.log('here->');
   const tDiff: Date = new Date(timeCurrent - timeStart);
   return [
     `0${tDiff.getUTCHours()}`.slice(-2),

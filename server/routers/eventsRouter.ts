@@ -1,8 +1,6 @@
 import { Router, Request, Response, NextFunction } from 'express';
-//import { events } from './data/events.json';
 import * as fs from 'fs';
 const path = require('path');
-//import { request } from 'http';
 
 interface DeviceEvent {
   type: string;
