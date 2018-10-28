@@ -1,8 +1,7 @@
 import './home.css';
 
-import picture from '../components/picture';
-import nav from '../components/nav';
 import foo from '../components/footer';
+import header from '../components/header';
 
 import headerData from '../data/header.json';
 import footerData from '../data/footer.json';
@@ -19,33 +18,29 @@ import sourceMenuIconSrcset from '../images/icon_list_m@1x.svg';
 
 /*Загружаем логотип для сайта */
 const imageLogo = {
-  class: 'logo',
+  class: 'logo__picture',
   sourceSrcset: sourceLogoSrcset,
   imgSrc: imgLogoSrc,
   imgSrcset: `${imgLogoSrcset} 2x`,
   imgAlt: 'Яндекс дом'
 };
-const dataLogo = picture(imageLogo);
-const logoHTML: HTMLElement = <HTMLElement>document.querySelector('.logo-href');
-logoHTML.innerHTML = dataLogo;
 
 /*Загружаем иконку меню для сайта*/
 const imageIcon = {
-  class: 'menu-icon',
+  class: 'menu-toggle__picture',
   sourceSrcset: sourceMenuIconSrcset,
   imgSrc: imgMenuIconSrc,
   imgSrcset: `${imgMenuIconSrcset} 2x`,
   imgAlt: 'menu'
 };
-const dataIcon = picture(imageIcon);
-const iconHTML: HTMLElement = <HTMLElement>document.querySelector('.menu-toggle');
-iconHTML.innerHTML = dataIcon;
 
-/*Загружаем данные для меню */
-const dataNav = nav(headerData);
+/*Шаблонизатор header */
+headerData.logo = imageLogo;
+headerData.icon = imageIcon;
 /*Получаем результат шаблонизатора и вставлем в html*/
-const navHtml: HTMLElement = <HTMLElement>document.querySelector('.nav-list');
-navHtml.innerHTML = dataNav;
+const dataHeader = header(headerData);
+const headerHTML: HTMLElement = <HTMLElement>document.querySelector('.header-wrap');
+headerHTML.innerHTML = dataHeader;
 
 const dataFoo = foo(footerData);
 /*Получаем результат шаблонизатора и вставлем в html*/
