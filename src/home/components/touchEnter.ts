@@ -7,121 +7,77 @@ const startCoord: PointerEvent[] = [];
 let currentScale = 100,
   currentPos = 100;
 
+// Сюда будем записывать события
+let currentPointerEvents: PointerEventShare = {}; // fake: undefined };
+// Состояние нашей картинки
+interface imageStateInterface {
+  leftMin: number;
+  left: number;
+  leftMax: number;
+  zoomMin: number;
+  zoom: number;
+  zoomMax: number;
+  brightnessMin: number;
+  brightness: number;
+  brightnessMax: number;
+}
+interface PointerEventShare {
+  [key: string]: PointerEvent | MouseEvent | undefined;
+}
+
+const imageState: imageStateInterface = {
+  leftMin: -3000,
+  left: 0,
+  leftMax: 3000,
+  zoomMin: 100,
+  zoom: 100,
+  zoomMax: 300,
+  brightnessMin: 0.2,
+  brightness: 1,
+  brightnessMax: 4
+};
+interface gestureStateInterface {
+  startZoom: number | null;
+  startDistance: number | null;
+  startBrightness: number | null;
+  startAngle: number | null;
+  angleDiff: number | null;
+  type: string | null;
+}
+interface gestureInterface {
+  type: string | null;
+}
+
+// Описание текущего жеста
+let gesture: gestureStateInterface | null = null;
+
 export function touchEvent() {
   //Получаем элемент - камеры - картинки, чтобы вращать
-  const cam = <HTMLDivElement>document.querySelector('.camera');
-  cam.setAttribute('touch-action', 'none');
+  const camera = <HTMLDivElement>document.querySelector('.camera');
+  camera.setAttribute('touch-action', 'none');
   const element = getCamElem();
   element.setAttribute('touch-action', 'none');
   const camSlider = getCamSlider();
   camSlider.style.opacity = '1';
-  init(element);
+  if (element) init(element);
   camSlider.style.left = `${currentPos * 0.75 + 15}px`;
 }
 
 function init(el: HTMLDivElement) {
   //навешиваем слушателей на события
 
-  el.addEventListener('pointerdown', pointerdown_handler);
-  el.addEventListener('pointermove', pointermove_handler);
-  el.addEventListener('pointerup', pointerup_handler);
+  el.addEventListener('pointerdown', pointerDownHandler);
+  el.addEventListener('pointermove', pointerMoveHandler);
+  el.addEventListener('pointerup', pointerUpHandler);
 
-  el.addEventListener('pointercancel', pointerup_handler);
-  el.addEventListener('pointerout', pointerup_handler);
-  el.addEventListener('pointerleave', pointerup_handler);
-}
-
-function pointerdown_handler(ev: PointerEvent) {
-  evCache.push(ev);
-  startCoord.push(ev);
-}
-
-function pointermove_handler(ev: PointerEvent) {
-  const camElement = getCamElem();
-  // Find this event in the cache and update its record with this event
-  for (let i = 0; i < evCache.length; i++) {
-    if (ev.pointerId == evCache[i].pointerId) {
-      evCache[i] = ev;
-      break;
-    }
-  }
-
-  // If two pointers are down, check for pinch gestures
-  if (evCache.length === 2) {
-    // Расстояние между пальцами по х
-    let curDiff = Math.abs(evCache[0].clientX - evCache[1].clientX);
-    let distX = evCache[0].clientX - evCache[1].clientX;
-    let distY = evCache[0].clientY - evCache[1].clientY;
-    let distXstart, distYstart;
-
-    let a,
-      gradA = 0;
-    if (startCoord.length > 0) {
-      distXstart = startCoord[0].x - startCoord[1].x;
-      distYstart = startCoord[0].y - startCoord[1].y;
-
-      a = Math.atan((distXstart * distY - distYstart * distX) / (distXstart * distX + distYstart * distY));
-      gradA = (a * 180) / Math.PI;
-    }
-
-    if (Math.abs(gradA) > 5) {
-      //значит поворот
-      camElement.style.webkitFilter = `brightness(${100 + gradA}%)`;
-      //el.style.filter = `brightness(${100 + gradA}%)`;
-      getBrightElem().innerText = `Яркость ${Math.round(100 + gradA)}%`;
-    }
-    {
-      console.log(`currentScale: ${currentScale}, curDiff: ${curDiff}, prevDiff: ${prevDiff} `);
-
-      if (prevDiff > 0) currentScale += curDiff - prevDiff;
-      if (currentScale > 200) currentScale = 200;
-      if (currentScale < 50) currentScale = 50;
-      camElement.style.backgroundSize = `${currentScale}% ${currentScale}% `;
-      camElement.style.webkitBackgroundSize = `${currentScale}% ${currentScale}% `;
-      getZoomElem().innerText = `Приближение ${currentScale}%`;
-    }
-
-    // сохраяняем начальные и предыдущие координаты
-    prevDiff = curDiff;
-    prevCoord.push(evCache[0]);
-    prevCoord.push(evCache[1]);
-  }
-
-  if (evCache.length === 1) {
-    // значит перемещение влево или вправо (swipe)
-    camElement.style.backgroundPositionX = `${currentPos}%`;
-    //camElement.style.webkitBackgroundPositionX = `${currentPos}%`;
-
-    if (startCoord.length > 0) {
-      currentPos += startCoord[0].x - ev.clientX;
-    }
-    if (currentPos < 0) currentPos = 0;
-    if (currentPos > 200) currentPos = 200;
-    getCamSlider().style.left = `${currentPos * 0.75 + 15}px`;
-  }
-}
-
-function pointerup_handler(ev: PointerEvent) {
-  console.log(ev.type, ev);
-  // Удаление предыдущих и начальных координат
-  remove_event(ev, evCache);
-
-  if (evCache.length < 2) {
-    prevDiff = -1;
-    //Удаляем стартовые координаты
-    remove_event(ev, prevCoord);
-    remove_event(ev, startCoord);
-  }
-}
-
-function remove_event(ev: PointerEvent, arr: PointerEvent[]) {
-  // Remove this event from the target's cache
-  for (let i = 0; i < arr.length; i++) {
-    if (arr[i].pointerId == ev.pointerId) {
-      arr.splice(i, 1);
-      break;
-    }
-  }
+  el.addEventListener('pointercancel', pointerUpHandler);
+  el.addEventListener('pointerout', pointerUpHandler);
+  el.addEventListener('pointerleave', pointerUpHandler);
+  el.addEventListener('dblclick', fakePointerHandler);
+  // Запрещает таскать картинку мышкой
+  el.addEventListener('dragstart', event => {
+    event.preventDefault();
+  });
 }
 
 function getCamElem(): HTMLDivElement {
@@ -142,4 +98,146 @@ function getZoomElem(): HTMLDivElement {
 function getCamSlider(): HTMLDivElement {
   const camSlider = <HTMLDivElement>document.querySelector('.cam-slider');
   return camSlider;
+}
+
+function pointerDownHandler(event: PointerEvent) {
+  currentPointerEvents[event.pointerId] = event;
+  if (!gesture) {
+    gesture = {
+      startZoom: null,
+      startDistance: null,
+      startBrightness: null,
+      startAngle: null,
+      angleDiff: null,
+      type: 'move'
+    };
+  }
+}
+const getDistance = (e1: PointerEvent, e2: PointerEvent): number => {
+  const { clientX: x1, clientY: y1 } = e1;
+  const { clientX: x2, clientY: y2 } = e2;
+  return Math.sqrt((x1 - x2) ** 2 + (y1 - y2) ** 2);
+};
+const getAngle = (e1: PointerEvent, e2: PointerEvent): number => {
+  const { clientX: x1, clientY: y1 } = e1;
+  const { clientX: x2, clientY: y2 } = e2;
+  const r = Math.atan2(x2 - x1, y2 - y1);
+  return 360 - (180 + Math.round((r * 180) / Math.PI));
+};
+const feedbackNodes = {
+  left: document.querySelector('.feedback__unit_left'),
+  zoom: document.querySelector('.feedback__unit_zoom'),
+  brightness: document.querySelector('.feedback__unit_brightness')
+};
+
+function setLeft(dx: number, element: HTMLDivElement) {
+  const { leftMin, leftMax } = imageState;
+
+  imageState.left += dx;
+  if (imageState.left < leftMin) {
+    imageState.left = leftMin;
+  } else if (imageState.left > leftMax) {
+    imageState.left = leftMax;
+  }
+  console.log(imageState.left);
+  element.style.backgroundPositionX = `${imageState.left}px`;
+}
+function pointerMoveHandler(event: PointerEvent) {
+  const element = getCamElem();
+  const pointersCount = Object.keys(currentPointerEvents).length;
+  if (pointersCount === 0 || !gesture) {
+    return;
+  }
+  let dx: number = 0,
+    distance: number = 0,
+    angle: number = 0;
+
+  if (pointersCount === 1 && gesture.type === 'move' && !currentPointerEvents.fake) {
+    const previousEvent = currentPointerEvents[event.pointerId];
+    previousEvent ? (dx = event.clientX - previousEvent.clientX) : (dx = event.clientX);
+    setLeft(dx, element);
+    currentPointerEvents[event.pointerId] = event;
+  } else if (pointersCount === 2) {
+    currentPointerEvents[event.pointerId] = event;
+    const events = Object.keys(currentPointerEvents).map(key => currentPointerEvents[key]);
+    if (events[0] && events[1]) {
+      distance = getDistance(<PointerEvent>events[0], <PointerEvent>events[1]);
+      angle = getAngle(<PointerEvent>events[0], <PointerEvent>events[1]);
+    }
+    if (!gesture.startDistance) {
+      gesture.startZoom = imageState.zoom;
+      gesture.startDistance = distance;
+      gesture.startBrightness = imageState.brightness;
+      gesture.startAngle = angle;
+      gesture.angleDiff = 0;
+      gesture.type = null;
+    }
+    const diff: number = distance - gesture.startDistance;
+    let angleDiff: number = 0;
+    if (gesture.startAngle) angleDiff = angle - gesture.startAngle;
+    if (!gesture.type) {
+      if (Math.abs(diff) < 10 && Math.abs(angleDiff) < 8) {
+        return;
+      } else if (Math.abs(diff) > 10) {
+        gesture.type = 'zoom';
+      } else {
+        gesture.type = 'rotate';
+      }
+    }
+    if (gesture.type === 'zoom') {
+      const { zoomMin, zoomMax } = imageState;
+      let zoom: number = zoomMin;
+      gesture.startZoom ? (zoom = gesture.startZoom + diff) : (zoom = zoomMin + diff);
+      if (diff < 0) {
+        zoom = Math.max(zoom, zoomMin);
+      } else {
+        zoom = Math.min(zoom, zoomMax);
+      }
+      imageState.zoom = zoom;
+      element.style.backgroundSize = `${zoom}%`;
+    }
+    if (gesture.type === 'rotate') {
+      const { brightnessMin, brightnessMax } = imageState;
+      if (Math.abs(gesture.angleDiff ? angleDiff - gesture.angleDiff : angleDiff) > 300) {
+        gesture.startBrightness = imageState.brightness;
+        gesture.startAngle = angle;
+        gesture.angleDiff = 0;
+        return;
+      }
+      gesture.angleDiff = angleDiff;
+      let brightness: number = 0;
+      if (gesture.startBrightness) brightness = gesture.startBrightness + angleDiff / 50;
+      if (angleDiff < 0) {
+        brightness = Math.max(brightness, brightnessMin);
+      } else {
+        brightness = Math.min(brightness, brightnessMax);
+      }
+      imageState.brightness = brightness;
+      element.style.filter = `brightness(${brightness})`;
+    }
+  }
+}
+
+function pointerUpHandler(event: PointerEvent) {
+  gesture = null;
+  delete currentPointerEvents[event.pointerId];
+}
+
+const fakePointer: HTMLDivElement = <HTMLDivElement>document.querySelector('.fake-pointer');
+
+function fakePointerHandler(event: MouseEvent): void {
+  if (currentPointerEvents['fake']) {
+    delete currentPointerEvents.fake;
+    fakePointer.style.left = '0';
+    fakePointer.style.top = '0';
+    fakePointer.classList.remove('active');
+  } else {
+    currentPointerEvents['fake'] = event;
+    const width: number = fakePointer.offsetWidth;
+    fakePointer.classList.add('active');
+    fakePointer.setAttribute(
+      'style',
+      `left:${imageState.left + event.pageX - width / 2}px; top: ${event.pageY - width / 2}px`
+    );
+  }
 }
