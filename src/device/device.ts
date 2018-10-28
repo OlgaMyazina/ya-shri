@@ -1,16 +1,10 @@
 import Tile from './components/videoTile/index';
-
-import picture from '../components/picture/picture.hbs';
-import nav from '../components/nav/index';
 import foo from '../components/footer';
+import header from '../components/header';
 
 import headerData from '../data/header.json';
 import dataVideos from '../data/video.json';
 import footerData from '../data/footer.json';
-
-import imgSrc from '../images/logo@1x.png';
-import imgSrcset from '../images/logo@2x.png';
-import sourceSrcset from '../images/logo.svg';
 
 export interface VideoDataElement {
   title: string;
@@ -18,23 +12,41 @@ export interface VideoDataElement {
   url: string;
 }
 
+/*Импортируем изображения для логотипа */
+import imgLogoSrc from '../images/logo@1x.png';
+import imgLogoSrcset from '../images/logo@2x.png';
+import sourceLogoSrcset from '../images/logo.svg';
+
+/*Импортируем изображения для меню */
+import imgMenuIconSrc from '../images/icon_list_m.png';
+import imgMenuIconSrcset from '../images/icon_list_m@2x.png';
+import sourceMenuIconSrcset from '../images/icon_list_m@1x.svg';
+
 /*Загружаем логотип для сайта */
 const imageLogo = {
-  class: 'logo',
-  sourceSrcset: sourceSrcset,
-  imgSrc: imgSrc,
-  imgSrcset: `${imgSrcset} 2x`,
+  class: 'logo__picture',
+  sourceSrcset: sourceLogoSrcset,
+  imgSrc: imgLogoSrc,
+  imgSrcset: `${imgLogoSrcset} 2x`,
   imgAlt: 'Яндекс дом'
 };
-const dataLogo = picture(imageLogo);
-const logoHTML: Element = <Element>document.querySelector('.logo-href');
-logoHTML.innerHTML = dataLogo;
 
-/*Загружаем данные для меню */
-const dataNav = nav(headerData);
+/*Загружаем иконку меню для сайта*/
+const imageIcon = {
+  class: 'menu-toggle__picture',
+  sourceSrcset: sourceMenuIconSrcset,
+  imgSrc: imgMenuIconSrc,
+  imgSrcset: `${imgMenuIconSrcset} 2x`,
+  imgAlt: 'menu'
+};
+
+/*Шаблонизатор header */
+headerData.logo = imageLogo;
+headerData.icon = imageIcon;
 /*Получаем результат шаблонизатора и вставлем в html*/
-const navHtml: Element = <Element>document.querySelector('.nav-list');
-navHtml.innerHTML = dataNav;
+const dataHeader = header(headerData);
+const headerHTML: HTMLElement = <HTMLElement>document.querySelector('.header-wrap');
+headerHTML.innerHTML = dataHeader;
 
 /*Получаем данные для видео -тайлов*/
 dataVideos.forEach((dataVideo: VideoDataElement) => {
