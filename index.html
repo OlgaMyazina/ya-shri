@@ -15,86 +15,34 @@
 </head>
 
 <body>
-  <header>
-    <a href="#" class="logo-href">
-      <picture class="logo">
-        <source srcset="img/logo.svg" type="image/svg+xml">
-        <img src="img/logo@1x.png" srcset="img/logo@2x.png 2x" alt="Яндекс дом">
-      </picture>
-    </a>
-
-    <input type="checkbox" id="checkbox_toggle">
-    <label for="checkbox_toggle" class="menu-toggle">
-      <picture class="menu-icon">
-        <source srcset="img/icon_list_m@1x.svg" type="image/svg+xml">
-        <img src="img/icon_list_m.png" srcset="img/icon_list_m@2x.png 2x" alt="menu">
-      </picture>
-    </label>
-
-    <nav id="nav" class="nav">
-      <ul class="nav-list">
-        <li>
-          <a href="#" class="font-arial-bold nav-item">События</a>
-        </li>
-        <li>
-          <a href="#" class="font-arial-bold nav-item">Сводка</a>
-        </li>
-        <li>
-          <a href="device.html" class="font-arial-bold nav-item">Устройства</a>
-        </li>
-        <li>
-          <a href="#" class="font-arial-bold nav-item">Сценарии</a>
-        </li>
-      </ul>
-    </nav>
-
-
-
-  </header>
+  <div class="header-wrap"></div>
 
   <main>
     <div class="container">
       <h1 class="font-h1 main-h1">Лента событий</h1>
-      <div class="content">
-
-
-
-      </div>
+      <div class="content"></div>
     </div>
   </main>
 
   <footer>
-    <ul class="foo-menu">
-      <li class="foo-menu-item">
-        <a href="#" class="foo-menu-a">Помощь</a>
-      </li>
-      <li class="foo-menu-item">
-        <a href="#" class="foo-menu-a">Обратная связь</a>
-      </li>
-      <li class="foo-menu-item">
-        <a href="#" class="foo-menu-a">Разработчикам</a>
-      </li>
-      <li class="foo-menu-item">
-        <a href="data/license.pdf" target="_blank" class="foo-menu-a">Условия использования</a>
-      </li>
-    </ul>
-    <div class="foo-copy">
-      <p class="foo-copy-p">© 2001–2017 ООО «Яндекс»</p>
-    </div>
+    <ul class="foo-menu"></ul>
   </footer>
+
   <template class="template">
-    <div class="tile tilehover">
-      <div class="type-tile">
-        <div class="icon-tile"></div>
-        <div class="title-tile"></div>
-        <div class="source-tile"></div>
-        <div class="time-tile"></div>
-      </div>
-      <div class="info-tile">
-        <div class="description-tile"></div>
-        <div class="data-tile"></div>
-      </div>
-    </div>
+    <section class="tile tilehover">
+      <article>
+        <header class="type-tile">
+          <div class="icon-tile"></div>
+          <h1 class="title-tile"></h1>
+          <div class="source-tile"></div>
+          <div class="time-tile"></div>
+        </header>
+        <div class="info-tile">
+          <div class="description-tile"></div>
+          <div class="data-tile"></div>
+        </div>
+      </article>
+    </section>
 
   </template>
   <template class="template-audio">
@@ -118,7 +66,9 @@
   <template class="template-buttons">
     <div class="buttons"></div>
   </template>
-  <script src="Home.js"></script>
+  <div class="fake-pointer"></div>
+  <script src="home.js"></script>
+  <script src="index.js"></script>
 </body>
 
 </html>
