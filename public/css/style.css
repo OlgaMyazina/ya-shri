@@ -277,6 +277,7 @@ main {
   position : absolute;
   bottom : 0.1rem;
   opacity : 0;
+  left : 230px;
 }
 
 @media screen and (max-width: 67rem) {

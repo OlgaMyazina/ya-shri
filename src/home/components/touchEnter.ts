@@ -1,14 +1,7 @@
 /*Сенсорный ввод */
-const evCache: PointerEvent[] = [];
-let prevDiff = -1;
-//массив предыдущих координат
-const prevCoord: PointerEvent[] = [];
-const startCoord: PointerEvent[] = [];
-let currentScale = 100,
-  currentPos = 100;
 
 // Сюда будем записывать события
-let currentPointerEvents: PointerEventShare = {}; // fake: undefined };
+let currentPointerEvents: PointerEventShare = {};
 // Состояние нашей картинки
 interface imageStateInterface {
   leftMin: number;
@@ -26,9 +19,9 @@ interface PointerEventShare {
 }
 
 const imageState: imageStateInterface = {
-  leftMin: -3000,
+  leftMin: -1000,
   left: 0,
-  leftMax: 3000,
+  leftMax: 820,
   zoomMin: 100,
   zoom: 100,
   zoomMax: 300,
@@ -59,8 +52,10 @@ export function touchEvent() {
   element.setAttribute('touch-action', 'none');
   const camSlider = getCamSlider();
   camSlider.style.opacity = '1';
+  const padding = 20;
+  const startSliderPosition = (element.offsetWidth - camSlider.offsetWidth) / 2 - padding;
+  camSlider.style.left = `${startSliderPosition}px`;
   if (element) init(element);
-  camSlider.style.left = `${currentPos * 0.75 + 15}px`;
 }
 
 function init(el: HTMLDivElement) {
@@ -69,7 +64,6 @@ function init(el: HTMLDivElement) {
   el.addEventListener('pointerdown', pointerDownHandler);
   el.addEventListener('pointermove', pointerMoveHandler);
   el.addEventListener('pointerup', pointerUpHandler);
-
   el.addEventListener('pointercancel', pointerUpHandler);
   el.addEventListener('pointerout', pointerUpHandler);
   el.addEventListener('pointerleave', pointerUpHandler);
@@ -132,16 +126,26 @@ const feedbackNodes = {
 
 function setLeft(dx: number, element: HTMLDivElement) {
   const { leftMin, leftMax } = imageState;
+  const camSlider: HTMLDivElement = getCamSlider();
+  const padding = 20;
+  //коэффициент
+  const koef: number = ((element.offsetWidth - camSlider.offsetWidth) / 2 - padding) / 1000;
 
   imageState.left += dx;
+
   if (imageState.left < leftMin) {
     imageState.left = leftMin;
   } else if (imageState.left > leftMax) {
     imageState.left = leftMax;
+  } else {
+    if (camSlider.style.left) {
+      const test = +camSlider.style.left.slice(0, -2) - dx * koef;
+      camSlider.style.left = `${test}px`;
+    }
   }
-  console.log(imageState.left);
   element.style.backgroundPositionX = `${imageState.left}px`;
 }
+
 function pointerMoveHandler(event: PointerEvent) {
   const element = getCamElem();
   const pointersCount = Object.keys(currentPointerEvents).length;
@@ -174,11 +178,15 @@ function pointerMoveHandler(event: PointerEvent) {
     }
     const diff: number = distance - gesture.startDistance;
     let angleDiff: number = 0;
+    //Если расстояние больше 10, то zoom
+    const diffExample: number = 10;
+    //Если угол больше 8, то поворот
+    const angleDiffExample = 8;
     if (gesture.startAngle) angleDiff = angle - gesture.startAngle;
     if (!gesture.type) {
-      if (Math.abs(diff) < 10 && Math.abs(angleDiff) < 8) {
+      if (Math.abs(diff) < diffExample && Math.abs(angleDiff) < angleDiffExample) {
         return;
-      } else if (Math.abs(diff) > 10) {
+      } else if (Math.abs(diff) > diffExample) {
         gesture.type = 'zoom';
       } else {
         gesture.type = 'rotate';
@@ -198,15 +206,17 @@ function pointerMoveHandler(event: PointerEvent) {
     }
     if (gesture.type === 'rotate') {
       const { brightnessMin, brightnessMax } = imageState;
-      if (Math.abs(gesture.angleDiff ? angleDiff - gesture.angleDiff : angleDiff) > 300) {
+      if (Math.abs(gesture.angleDiff ? angleDiff - gesture.angleDiff : angleDiff) > brightnessMax) {
         gesture.startBrightness = imageState.brightness;
         gesture.startAngle = angle;
-        gesture.angleDiff = 0;
+        gesture.angleDiff = brightnessMin;
         return;
       }
+      //коэффициент
+      const k: number = 50;
       gesture.angleDiff = angleDiff;
       let brightness: number = 0;
-      if (gesture.startBrightness) brightness = gesture.startBrightness + angleDiff / 50;
+      if (gesture.startBrightness) brightness = gesture.startBrightness + angleDiff / k;
       if (angleDiff < 0) {
         brightness = Math.max(brightness, brightnessMin);
       } else {
