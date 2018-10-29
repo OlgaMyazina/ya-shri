@@ -1,4 +1,10 @@
 import * as touchEvents from './touchEnter';
+import picture from '../../components/picture';
+/*Импортируем изображения для меню */
+import imgGraphSrc from '../../images/Richdata.png';
+import imgGraphSrcset2 from '../../images/Richdata@2x.png';
+import imgGraphSrcset3 from '../../images/Richdata@3x.png';
+import sourceGraphSrcset from '../../images/Richdata.svg';
 
 export function render(events: DeviceEvent[]): void {
   const content = document.querySelector('.content');
@@ -88,6 +94,7 @@ function createEventElement(event: DeviceEvent) {
       const graph = <HTMLDivElement>(
         (<HTMLTemplateElement>document.querySelector('.template-graph')).content.cloneNode(true)
       );
+
       fillTemplateGraph(graph, data);
       const dataTile = <HTMLElement>tile.querySelector('.data-tile');
       dataTile.appendChild(graph);
@@ -184,17 +191,32 @@ function fillTemplateAudio(audio: HTMLDivElement, data: EventDataAudio): void {
 function fillTemplateGraph(graph: HTMLDivElement, data: EventDataGraph): void {
   if (graph !== null) {
     const graphNode: HTMLElement = <HTMLElement>graph.querySelector('.graph');
+    /*Загружаем картинку-график*/
+    const imageGraph = {
+      class: 'image-graph',
+      sourceSrcset: sourceGraphSrcset,
+      imgSrc: imgGraphSrc,
+      imgSrcset: `${imgGraphSrcset2} 2x, ${imgGraphSrcset3} 3x`,
+      imgAlt: 'graph'
+    };
+    /*Получаем результат шаблонизатора и вставлем в html*/
+    const dataGraph = picture(imageGraph);
+    const graphHTML: HTMLElement = graphNode;
+    graphHTML.innerHTML = dataGraph;
+    /*
     graphNode.style.background = ` url('../../img/Richdata.png') no-repeat`;
     graphNode.style.backgroundImage = `-webkit-image-set( url('../../img/Richdata.png') 1x, url('../../img/Richdata@2x.png') 2x, url('../../images/Richdata@3x.png') 3x )`;
     graphNode.style.backgroundPosition = `center bottom`;
+    */
   }
 }
 
 function createImageElement(): HTMLDivElement {
   //вставляем заглушку вместо "get_it_from_mocks_:3.jpg"
   const imgDiv = document.createElement('div');
-  imgDiv.style.background = `url('./img/Bitmap.png')`;
-  imgDiv.style.background = `-webkit-image-set( url('../../img/Bitmap.png') 1x, url('../../img/Bitmap2x.png') 2x , url('img/Bitmap3x.png') 3x`;
+
+  imgDiv.style.background = `url('../img/Bitmap.png')`;
+  imgDiv.style.background = `-webkit-image-set( url('../img/Bitmap.png') 1x, url('../img/Bitmap2x.png') 2x , url('img/Bitmap3x.png') 3x`;
   imgDiv.style.backgroundPosition = `50% 50%`;
   imgDiv.classList.add('cam');
   const camSlider = document.createElement('div');

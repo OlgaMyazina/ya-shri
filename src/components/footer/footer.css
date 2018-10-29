@@ -1,0 +1,81 @@
+footer {
+  height : 4rem;
+  width : 100%;
+  grid-area : footer;
+  display : -ms-grid;
+  display :     grid;
+  grid-template-columns : [col1] auto [col3] 1fr;
+  grid-template-areas : 'menu copy';
+  border-top : 1px solid #f0f0f0;
+}
+/*TODO: перенести шрифты*/
+.foo-menu-a,
+.foo-copy-p {
+  text-decoration : none;
+  font-family : ArialMT;
+  font-size : 0.75rem;
+  color : #858585;
+  letter-spacing : 0.01px;
+  text-align : left;
+}
+.foo-menu {
+  padding-top : 1.4rem;
+  padding-left : 2.5rem;
+  list-style : none;
+  grid-area : menu;
+  display : -ms-grid;
+  display :     grid;
+  grid-template-columns : repeat(4, auto);
+  grid-gap : 1rem;
+}
+
+.foo-copy {
+  grid-area : copy;
+  padding-top : 1.4rem;
+  padding-right : 2.5rem;
+}
+.foo-copy-p {
+  text-align : right;
+}
+
+/*footer исчезает при мобильных*/
+@media only screen and (max-width: 599px) {
+  footer {
+    display : none;
+  }
+}
+@media only screen and (min-width: 600px) {
+  .nav-item:hover {
+    opacity : 1;
+  }
+  .tilehover:hover:before {
+    content : '';
+    position : absolute;
+    background : url('../../images/cross.svg') no-repeat;
+    width : 1rem;
+    height : 1rem;
+    top : 1rem;
+    right : 1rem;
+  }
+  .tilehover:hover:after {
+    content : '';
+    position : absolute;
+    background : url('../../images/Next.svg') no-repeat;
+    width : 0.7rem;
+    height : 1rem;
+    bottom : 1rem;
+    right : 1rem;
+  }
+  .tilehover:hover {
+    background : #f3f3f3;
+    -webkit-box-shadow : 0 2px 6px 0 rgba(197, 186, 186, 0.5);
+            box-shadow : 0 2px 6px 0 rgba(197, 186, 186, 0.5);
+  }
+  .tilehover:hover .info-tile {
+    background : #f3f3f3;
+  }
+
+  .foo-menu-a:hover {
+    color : #333333;
+  }
+}

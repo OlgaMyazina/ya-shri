@@ -111,3 +111,16 @@
     flex-wrap : wrap;
   }
 }
+
+.volume {
+  width : 2rem;
+  height : 2rem;
+  background-image : url('../../../images/voiceoff.png');
+  background-size : contain;
+  background-repeat : no-repeat;
+}
+.volume.up {
+  background-image : url('../../../images/voiceon.png');
+  background-size : contain;
+  background-repeat : no-repeat;
+}
