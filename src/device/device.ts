@@ -7,12 +7,6 @@ import headerData from '../data/header.json';
 import dataVideos from '../data/video.json';
 import footerData from '../data/footer.json';
 
-export interface VideoDataElement {
-  title: string;
-  class: string;
-  url: string;
-}
-
 /*Импортируем изображения для логотипа */
 import imgLogoSrc from '../images/logo@1x.png';
 import imgLogoSrcset from '../images/logo@2x.png';
@@ -22,6 +16,24 @@ import sourceLogoSrcset from '../images/logo.svg';
 import imgMenuIconSrc from '../images/icon_list_m.png';
 import imgMenuIconSrcset from '../images/icon_list_m@2x.png';
 import sourceMenuIconSrcset from '../images/icon_list_m@1x.svg';
+
+export interface VideoDataElement {
+  title: string;
+  class: string;
+  url: string;
+}
+
+interface iVideos {
+  videos: iVideoState[];
+}
+
+interface iVideoState {
+  brightness: string;
+  contrast: string;
+  videoId: string;
+}
+
+const TypeVideoSettings = 'videoSettingChange';
 
 /*Загружаем логотип для сайта */
 const imageLogo = {
@@ -49,12 +61,29 @@ const dataHeader = header(headerData);
 const headerHTML: HTMLElement = <HTMLElement>document.querySelector('.header-wrap');
 headerHTML.innerHTML = dataHeader;
 
+let initialState: iVideos = { videos: [] };
+function onChange(action: any) {
+  store.dispatch(action);
+}
+function videoReducer(state = initialState, action: any) {
+  const indexVideoChange = state.videos.findIndex(video => video.videoId == action.videoId);
+  if (action.type == 'brightnessChange') state.videos[indexVideoChange].brightness = action.brightness;
+  if (action.type == 'contrastChange') state.videos[indexVideoChange].contrast = action.contrast;
+  return state;
+}
+const videos: any = [];
 /*Получаем данные для видео -тайлов*/
 dataVideos.forEach((dataVideo: VideoDataElement) => {
   /*Получаем результат шаблонизатора и вставлем в html*/
   const videosContainer: HTMLDivElement = <HTMLDivElement>document.querySelector('.content-device');
   if (videosContainer) {
-    new Tile(dataVideo, videosContainer, dataVideo.url);
+    const tile = new Tile(dataVideo, videosContainer, dataVideo.url, onChange);
+    initialState.videos.push({
+      brightness: '1',
+      contrast: '1',
+      videoId: dataVideo.class
+    });
+    videos.push(tile);
   }
 });
 
@@ -64,39 +93,6 @@ const fooHtml = document.querySelector('.foo-menu');
 if (fooHtml) {
   fooHtml.innerHTML = dataFoo;
 }
-interface iVideos {
-  videos: iVideoState[];
-}
-interface iVideoState {
-  brightness: string;
-  contrast: string;
-  videoId: string;
-}
 
-function videoState(state = 0, action: iVideoState) {
-  const newState: iVideoState = {
-    brightness: action.brightness,
-    contrast: action.contrast,
-    videoId: action.videoId
-  };
-  return newState;
-}
-let store = new Store(videoState);
-console.log(store);
+let store = new Store(videoReducer);
 store.subscribe(() => console.log(store.getState()));
-
-store.dispatch({
-  brightness: 1.8,
-  contrast: 0.1,
-  videoId: 2
-});
-store.dispatch({
-  brightness: 1,
-  contrast: 1.5,
-  videoId: 2
-});
-store.dispatch({
-  brightness: 0.3,
-  contrast: 2.8,
-  videoId: 2
-});

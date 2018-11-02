@@ -1,7 +1,10 @@
 import * as Hls from 'hls.js';
+//import Store from '../../../../../flux/build/store/store';
+
 import * as videoTemplate from './videoTile.handlebars';
-import './videoTile.css';
 import * as interfaceDataElement from '../../device';
+
+import './videoTile.css';
 
 export default class Tile {
   tile: HTMLDivElement;
@@ -10,9 +13,15 @@ export default class Tile {
   source: MediaElementAudioSourceNode | undefined;
   analyser: AnalyserNode | undefined;
   processor: ScriptProcessorNode | undefined;
-  constructor(videoData: interfaceDataElement.VideoDataElement, videosContainer: HTMLDivElement, url: string) {
+  onChange: any;
+  constructor(
+    videoData: interfaceDataElement.VideoDataElement,
+    videosContainer: HTMLDivElement,
+    url: string,
+    onChange: any
+  ) {
     const html = videoTemplate(videoData);
-
+    this.onChange = onChange;
     this.appendToContainer(html, videosContainer);
     this.tile = <HTMLDivElement>videosContainer.querySelector('.device-wrap:last-child  .tile');
     /*Инициализируем видео*/
@@ -54,7 +63,6 @@ export default class Tile {
       this.video.addEventListener('click', () => {
         this.tile.classList.add('opened');
         this.initAudioContext();
-        console.log(this.tile);
       });
     }
   }
@@ -63,7 +71,12 @@ export default class Tile {
     const inputBrightness: HTMLInputElement = <HTMLInputElement>this.tile.querySelector('.brightness');
     if (inputBrightness) {
       inputBrightness.addEventListener('input', e => {
-        this.video.style.filter = `brightness(${(<HTMLInputElement>e.target).value})`;
+        //this.video.style.filter = `brightness(${(<HTMLInputElement>e.target).value})`;
+        this.onChange({
+          type: 'brightnessChange',
+          brightness: `${(<HTMLInputElement>e.target).value}`,
+          videoId: this.video.classList[0]
+        });
       });
     }
   }
@@ -72,7 +85,12 @@ export default class Tile {
     const inputContrast: HTMLInputElement = <HTMLInputElement>this.tile.querySelector('.contrast');
     if (inputContrast !== null) {
       inputContrast.addEventListener('input', e => {
-        this.video.style.filter = `contrast(${(<HTMLInputElement>e.target).value})`;
+        //this.video.style.filter = `contrast(${(<HTMLInputElement>e.target).value})`;
+        this.onChange({
+          type: 'contrastChange',
+          contrast: `${(<HTMLInputElement>e.target).value}`,
+          videoId: this.video.classList[0]
+        });
       });
     }
   }
@@ -80,7 +98,8 @@ export default class Tile {
     const button: HTMLDivElement = <HTMLDivElement>this.tile.querySelector('.close');
     button.addEventListener('click', () => {
       this.tile.classList.remove('opened');
-      this.onVolumeMute();
+      const volume: HTMLDivElement = <HTMLDivElement>this.tile.querySelector('.volume');
+      if (volume && volume.classList.contains('up')) this.onVolumeMute();
     });
   }
 
@@ -129,7 +148,6 @@ export default class Tile {
         if (newState == 'running') {
           /*запускаем */
           this.ctx.resume();
-
           this.analyser.connect(this.ctx.destination);
           this.processor.connect(this.ctx.destination);
           this.analyser.fftSize = 32;
@@ -137,9 +155,7 @@ export default class Tile {
           this.processor.onaudioprocess = () => {
             if (this.analyser !== undefined) {
               this.analyser.getByteFrequencyData(data);
-
               /*Для отображения графика */
-
               //коэффициент
               const kData = 25;
               //Стобцы графика
