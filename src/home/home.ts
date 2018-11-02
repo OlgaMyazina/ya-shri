@@ -38,9 +38,9 @@ const imageIcon = {
 headerData.logo = imageLogo;
 headerData.icon = imageIcon;
 /*Получаем результат шаблонизатора и вставлем в html*/
-const dataHeader = header(headerData);
-const headerHTML: HTMLElement = <HTMLElement>document.querySelector('.header-wrap');
-headerHTML.innerHTML = dataHeader;
+const headerHTML = header(headerData);
+const headerElement: HTMLElement = <HTMLElement>document.querySelector('.header-wrap');
+headerElement.innerHTML = headerHTML;
 
 const dataFoo = foo(footerData);
 /*Получаем результат шаблонизатора и вставлем в html*/

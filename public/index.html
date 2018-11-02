@@ -27,8 +27,8 @@
   <footer>
     <ul class="foo-menu"></ul>
   </footer>
-
-  <template class="template">
+  <template class='template'></template>
+  <!--template class="template">
     <section class="tile tilehover">
       <article>
         <header class="type-tile">
@@ -39,33 +39,35 @@
         </header>
         <div class="info-tile">
           <div class="description-tile"></div>
-          <div class="data-tile"></div>
+          <div class="data-tile">
+            <template class="template-audio">
+              <audio controls>
+                <source src="#">
+              </audio>
+              <div class="cover"></div>
+              <div class="artist"></div>
+              <input name="track-range" type="range" min="0" max="100" step="1" value="50" class="track">
+              <label for="track-range" class="length"></label>
+              <div class="prev"></div>
+              <div class="next"></div>
+              <input name="volume-range" type="range" min="0" max="100" step="1" value="50" class="volume-range">
+              <label for="volume-range" class="volume"></label>
+            </template>
+            <template class="template-graph">
+              <div class="graph"></div>
+            </template>
+            <template class="template-image">
+            </template>
+            <template class="template-buttons">
+              <div class="buttons"></div>
+            </template>
+          </div>
         </div>
       </article>
     </section>
+  </template-->
 
-  </template>
-  <template class="template-audio">
-    <audio controls>
-      <source src="#">
-    </audio>
-    <div class="cover"></div>
-    <div class="artist"></div>
-    <input name="track-range" type="range" min="0" max="100" step="1" value="50" class="track">
-    <label for="track-range" class="length"></label>
-    <div class="prev"></div>
-    <div class="next"></div>
-    <input name="volume-range" type="range" min="0" max="100" step="1" value="50" class="volume-range">
-    <label for="volume-range" class="volume"></label>
-  </template>
-  <template class="template-graph">
-    <div class="graph"></div>
-  </template>
-  <template class="template-image">
-  </template>
-  <template class="template-buttons">
-    <div class="buttons"></div>
-  </template>
+
   <div class="fake-pointer"></div>
   <script src="home.js"></script>
   <script src="index.js"></script>

@@ -1,3 +1,4 @@
+import Store from '../../../flux/build/store/store';
 import Tile from './components/videoTile/index';
 import foo from '../components/footer';
 import header from '../components/header';
@@ -63,3 +64,39 @@ const fooHtml = document.querySelector('.foo-menu');
 if (fooHtml) {
   fooHtml.innerHTML = dataFoo;
 }
+interface iVideos {
+  videos: iVideoState[];
+}
+interface iVideoState {
+  brightness: string;
+  contrast: string;
+  videoId: string;
+}
+
+function videoState(state = 0, action: iVideoState) {
+  const newState: iVideoState = {
+    brightness: action.brightness,
+    contrast: action.contrast,
+    videoId: action.videoId
+  };
+  return newState;
+}
+let store = new Store(videoState);
+console.log(store);
+store.subscribe(() => console.log(store.getState()));
+
+store.dispatch({
+  brightness: 1.8,
+  contrast: 0.1,
+  videoId: 2
+});
+store.dispatch({
+  brightness: 1,
+  contrast: 1.5,
+  videoId: 2
+});
+store.dispatch({
+  brightness: 0.3,
+  contrast: 2.8,
+  videoId: 2
+});

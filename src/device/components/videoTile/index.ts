@@ -52,10 +52,9 @@ export default class Tile {
   addEventToVideo() {
     if (this.video) {
       this.video.addEventListener('click', () => {
-        if (document.querySelector('.opened')) {
-          this.tile.classList.add('opened');
-          this.initAudioContext();
-        }
+        this.tile.classList.add('opened');
+        this.initAudioContext();
+        console.log(this.tile);
       });
     }
   }
@@ -119,8 +118,11 @@ export default class Tile {
   }
 
   analiser(chart: any, newState: string) {
+    console.log(this.ctx);
     if (this.ctx !== undefined) {
+      console.log(`ctx!==undefined`);
       if (this.source !== undefined && this.analyser !== undefined && this.processor !== undefined) {
+        console.log(`this.source, this.analiser, this.processor`);
         this.source.connect(this.analyser);
         this.source.connect(this.processor);
 

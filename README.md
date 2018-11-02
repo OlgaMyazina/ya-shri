@@ -25,3 +25,12 @@
 `npm run build`
 
 ---
+
+## Для запуска тестовых потоков:
+
+```
+git clone https://github.com/mad-gooze/shri-2018-2-multimedia-homework.git
+cd shri-2018-2-multimedia-homework
+npm i
+npm start
+```
