@@ -1,0 +1,122 @@
+.header {
+  position : fixed;
+  left : 0;
+  top : 0;
+  height : 6rem;
+  width : 100%;
+  grid-area : header;
+  display : -ms-grid;
+  display :     grid;
+  grid-template : 'logo nav' 'icon icon';
+  grid-auto-columns : min-content;
+  grid-template-rows : auto 1px;
+  -webkit-box-align : center;
+  align-items : center;
+  border-bottom : 1px solid #f0f0f0;
+  background : white;
+  z-index : 1;
+}
+
+.header__logo {
+  grid-area : logo;
+}
+
+.header__logo_position {
+  padding-left : 2.6rem;
+}
+/*ссылка <a href=...> делаем inline-block, нельзя добавлять изображение в строчный элемент*/
+.logo__logo-href {
+  display : inline-block;
+  grid-area : logo;
+  min-width : 7rem;
+}
+
+.header__nav {
+  grid-area : nav;
+  justify-self : left;
+  position : relative;
+}
+
+.nav__nav-list {
+  list-style : none;
+  display : -ms-inline-grid;
+  display :     inline-grid;
+  grid-auto-flow : column;
+}
+
+.nav__item {
+  text-decoration : none;
+  opacity : 0.6;
+  font-family : Arial-BoldMT;
+  font-size : 16px;
+  color : #333333;
+  line-height : 20px;
+  padding-left : 1.5rem;
+}
+.nav__item:hover {
+  opacity : 1;
+}
+
+.header__menu-toggle {
+  opacity : 0;
+  grid-area : icon;
+  cursor : pointer;
+}
+/*
+input[type='checkbox'] {
+  display : none;
+}*/
+
+.menu-toggle__checkbox {
+  display : none;
+}
+
+.menu-toggle__picture {
+  padding-right : 1.25rem;
+}
+
+@media only screen and (max-width: 599px) {
+  .header {
+    height : 4.5rem;
+    border : initial;
+    grid-template : 'logo icon'
+    'nav nav';
+    grid-auto-columns : auto;
+    grid-template-rows : auto 1px;
+  }
+  .header__logo_position {
+    padding-left : 1.25rem;
+  }
+  .header__nav {
+    opacity : 0;
+    justify-self : center;
+    top : 4.5rem;
+    position : relative;
+    left : 0;
+    right : 0;
+    bottom : 0;
+    background : white;
+    width : 100%;
+  }
+
+  .nav__nav-list {
+    display : block;
+  }
+
+  .nav__item {
+    padding-bottom : 1rem;
+    display : inline-block;
+  }
+
+  .header__menu-toggle {
+    opacity : 1;
+    justify-self : end;
+    width : 3rem;
+  }
+  .menu-icon {
+    padding-right : 3.5rem;
+  }
+  .menu-toggle__checkbox:checked ~ .header__nav {
+    opacity : 1;
+  }
+}
