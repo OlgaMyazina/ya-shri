@@ -14,6 +14,8 @@ export default class Tile {
   analyser: AnalyserNode | undefined;
   processor: ScriptProcessorNode | undefined;
   onChange: any;
+  brightness: string = '1';
+  contrast: string = '1';
   constructor(
     videoData: interfaceDataElement.VideoDataElement,
     videosContainer: HTMLDivElement,
@@ -80,6 +82,10 @@ export default class Tile {
       });
     }
   }
+  setBrightness(brightnessValue: string) {
+    this.brightness = brightnessValue;
+    this.applyFilter();
+  }
 
   addEventToContrast() {
     const inputContrast: HTMLInputElement = <HTMLInputElement>this.tile.querySelector('.contrast');
@@ -94,6 +100,16 @@ export default class Tile {
       });
     }
   }
+
+  setContrast(contrastValue: string) {
+    this.contrast = contrastValue;
+    this.applyFilter();
+  }
+
+  applyFilter() {
+    this.video.style.filter = `brightness(${this.brightness}) contrast(${this.contrast})`;
+  }
+
   addEventToBtns() {
     const button: HTMLDivElement = <HTMLDivElement>this.tile.querySelector('.close');
     button.addEventListener('click', () => {
@@ -137,11 +153,8 @@ export default class Tile {
   }
 
   analiser(chart: any, newState: string) {
-    console.log(this.ctx);
     if (this.ctx !== undefined) {
-      console.log(`ctx!==undefined`);
       if (this.source !== undefined && this.analyser !== undefined && this.processor !== undefined) {
-        console.log(`this.source, this.analiser, this.processor`);
         this.source.connect(this.analyser);
         this.source.connect(this.processor);
 

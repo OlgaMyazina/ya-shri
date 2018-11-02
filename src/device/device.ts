@@ -24,13 +24,13 @@ export interface VideoDataElement {
 }
 
 interface iVideos {
-  videos: iVideoState[];
+  [key: string]: iVideoState;
 }
 
 interface iVideoState {
   brightness: string;
   contrast: string;
-  videoId: string;
+  //videoId: string;
 }
 
 const TypeVideoSettings = 'videoSettingChange';
@@ -61,28 +61,30 @@ const dataHeader = header(headerData);
 const headerHTML: HTMLElement = <HTMLElement>document.querySelector('.header-wrap');
 headerHTML.innerHTML = dataHeader;
 
-let initialState: iVideos = { videos: [] };
+let initialState: iVideos = {};
 function onChange(action: any) {
   store.dispatch(action);
 }
 function videoReducer(state = initialState, action: any) {
-  const indexVideoChange = state.videos.findIndex(video => video.videoId == action.videoId);
-  if (action.type == 'brightnessChange') state.videos[indexVideoChange].brightness = action.brightness;
-  if (action.type == 'contrastChange') state.videos[indexVideoChange].contrast = action.contrast;
+  console.log(`videoR->`);
+  console.log(state);
+  console.log(action);
+  if (action.type == 'brightnessChange') state[action.videoId].brightness = action.brightness;
+  if (action.type == 'contrastChange') state[action.videoId].contrast = action.contrast;
+  console.log(state);
   return state;
 }
-const videos: any = [];
+const videos: Tile[] = [];
 /*Получаем данные для видео -тайлов*/
 dataVideos.forEach((dataVideo: VideoDataElement) => {
   /*Получаем результат шаблонизатора и вставлем в html*/
   const videosContainer: HTMLDivElement = <HTMLDivElement>document.querySelector('.content-device');
   if (videosContainer) {
     const tile = new Tile(dataVideo, videosContainer, dataVideo.url, onChange);
-    initialState.videos.push({
+    initialState[dataVideo.class] = {
       brightness: '1',
-      contrast: '1',
-      videoId: dataVideo.class
-    });
+      contrast: '1'
+    };
     videos.push(tile);
   }
 });
@@ -95,4 +97,12 @@ if (fooHtml) {
 }
 
 let store = new Store(videoReducer);
-store.subscribe(() => console.log(store.getState()));
+store.subscribe(() => {
+  console.log(videos);
+  videos.forEach(video => {
+    const currentStore: iVideos = store.getState();
+    console.log(currentStore);
+    video.setContrast(currentStore[video.video.classList[0]].contrast);
+    video.setBrightness(currentStore[video.video.classList[0]].brightness);
+  });
+});
