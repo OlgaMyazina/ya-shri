@@ -4,7 +4,7 @@ import dataVideos from '../../data/video.json';
 
 export interface VideoDataElement {
   title: string;
-  class: string;
+  id: string;
   url: string;
 }
 
@@ -24,9 +24,10 @@ export default class DevicePage {
   videos: Tile[] = [];
   onChange: any;
   containerElement: HTMLDivElement;
-  constructor(containerElement: HTMLDivElement, onChange: any) {
+  userSettings: iVideoSettings;
+  constructor(containerElement: HTMLDivElement, onChange: any, userSettings: iVideoSettings) {
     this.containerElement = containerElement;
-    this.mount();
+    this.userSettings = userSettings;
     this.onChange = onChange;
   }
   mount(): void {
@@ -38,8 +39,9 @@ export default class DevicePage {
       /*Получаем результат шаблонизатора и вставлем в html*/
 
       if (this.containerElement) {
+        console.log(this.userSettings);
         const tile = new Tile(dataVideo, this.containerElement, dataVideo.url, this.onChange);
-        initialState[dataVideo.class] = {
+        initialState[dataVideo.id] = {
           brightness: '1',
           contrast: '1'
         };

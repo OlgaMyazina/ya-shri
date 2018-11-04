@@ -10,7 +10,7 @@ export default class EventPage {
   containerElement: HTMLDivElement;
   constructor(containerElement: HTMLDivElement) {
     this.containerElement = containerElement;
-    this.mount();
+    //this.mount();
   }
   mount() {
     fetch(EVENTS_URL)

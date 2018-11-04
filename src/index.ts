@@ -1,32 +1,33 @@
-//import Store from '../../../flux/build/store/store';
-import Store from 'bikeflux/build/store/store';
+import Store from '../../flux/build/store/store';
+//import Store from 'bikeflux/build/store/store';
 
-import { iVideoSettings } from './components/devicePage/devicePage';
-import Application from './components/layout';
-//import * as index from './index/index'; // './index/index.ts';
-import { Page } from './index/index';
+import Application from './components/app';
+import LocalStorageManager from './localStorage';
+const ls = new LocalStorageManager();
 
-function onChangePage(action: any) {
-  store.dispatch(action);
+function reducer(state: any, action: any) {
+  let newState = { ...state };
+
+  switch (action.type) {
+    case 'pageChange':
+      newState.route = action.route;
+
+      break;
+    case 'contrastChange':
+      newState.videos[action.videoId].contrast = action.contrast;
+
+      break;
+    case 'brightnessChange':
+      newState.videos[action.videoId].brightness = action.brightness;
+
+      break;
+  }
+  return newState;
 }
-const index = new Page(onChangePage);
+const store = new Store(reducer, ls.getStateFromLocalStorage());
 
-export interface iState {
-  location: string;
-  videos: iVideoSettings;
-}
-
-const initialState: iState = {
-  location: '',
-  videos: {}
-};
-
-function onChangeVideoFilter(action: any) {
-  store.dispatch(action);
-}
-const app = new Application(onChangeVideoFilter);
-
-const store = new Store(initialState);
+ls.connectToStore(store);
+const app = new Application(store);
 
 /*this.store.subscrive(() => {
         const videosSettings = this.store.getState().videos;

@@ -16,6 +16,7 @@ export default class Tile {
   brightness: string = '1';
   contrast: string = '1';
   changeHandlers: any = [];
+
   constructor(
     videoData: interfaceDataElement.VideoDataElement,
     videosContainer: HTMLDivElement,
@@ -23,7 +24,7 @@ export default class Tile {
     onChange: any
   ) {
     const html = videoTemplate(videoData);
-    //this.onChange = onChange(handler);
+    this.onChange = onChange;
     this.appendToContainer(html, videosContainer);
     this.tile = <HTMLDivElement>videosContainer.querySelector('.device-wrap:last-child  .tile');
     /*Инициализируем видео*/
@@ -60,18 +61,19 @@ export default class Tile {
     videosContainer.appendChild(newHtmlElem.content);
   }
   listenerEventToVideo() {
+    //error: Cannot read property 'classList' of undefined at HTMLVideoElement.listenerEventToVideo
     this.tile.classList.add('opened');
     this.initAudioContext();
   }
 
   addEventToVideo() {
     if (this.video) {
-      this.video.addEventListener('click', this.listenerEventToVideo);
+      this.video.addEventListener('click', this.listenerEventToVideo.bind(this));
     }
   }
   removeEventToVideo() {
     if (this.video) {
-      this.video.removeEventListener('click', this.listenerEventToVideo);
+      this.video.removeEventListener('click', this.listenerEventToVideo.bind(this));
     }
   }
 
@@ -85,11 +87,11 @@ export default class Tile {
   }
   addEventToBrightness() {
     const inputBrightness = this.tile.querySelector<HTMLInputElement>('.brightness');
-    if (inputBrightness) inputBrightness.addEventListener('input', this.listenerEventToBrightness);
+    if (inputBrightness) inputBrightness.addEventListener('input', this.listenerEventToBrightness.bind(this));
   }
   removeEventToBrightness() {
     const inputBrightness = this.tile.querySelector<HTMLInputElement>('.brightness');
-    if (inputBrightness) inputBrightness.removeEventListener('input', this.listenerEventToBrightness);
+    if (inputBrightness) inputBrightness.removeEventListener('input', this.listenerEventToBrightness.bind(this));
   }
   setBrightness(brightnessValue: string) {
     this.brightness = brightnessValue;
@@ -106,13 +108,13 @@ export default class Tile {
   addEventToContrast() {
     const inputContrast = this.tile.querySelector<HTMLInputElement>('.contrast');
     if (inputContrast) {
-      inputContrast.addEventListener('input', this.listenerEventToContrast);
+      inputContrast.addEventListener('input', this.listenerEventToContrast.bind(this));
     }
   }
   removeEventToContrast() {
     const inputContrast = this.tile.querySelector<HTMLInputElement>('.contrast');
     if (inputContrast) {
-      inputContrast.removeEventListener('input', this.listenerEventToContrast);
+      inputContrast.removeEventListener('input', this.listenerEventToContrast.bind(this));
     }
   }
 
@@ -131,11 +133,11 @@ export default class Tile {
   }
   addEventToBtns() {
     const button = this.tile.querySelector<HTMLDivElement>('.close');
-    if (button) button.addEventListener('click', this.listenerEventToButton);
+    if (button) button.addEventListener('click', this.listenerEventToButton.bind(this));
   }
   removeEventToBtns() {
     const button = this.tile.querySelector<HTMLDivElement>('.close');
-    if (button) button.removeEventListener('click', this.listenerEventToButton);
+    if (button) button.removeEventListener('click', this.listenerEventToButton.bind(this));
   }
   listenerEventToVolume() {
     const volume = this.tile.querySelector<HTMLDivElement>('.volume');
@@ -147,13 +149,13 @@ export default class Tile {
   addEventToVolume() {
     const volume = this.tile.querySelector<HTMLDivElement>('.volume');
     if (volume) {
-      volume.addEventListener('click', this.listenerEventToVolume);
+      volume.addEventListener('click', this.listenerEventToVolume.bind(this));
     }
   }
   removeEventToVolume() {
     const volume = this.tile.querySelector<HTMLDivElement>('.volume');
     if (volume) {
-      volume.removeEventListener('click', this.listenerEventToVolume);
+      volume.removeEventListener('click', this.listenerEventToVolume.bind(this));
     }
   }
 
