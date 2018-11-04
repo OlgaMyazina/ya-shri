@@ -19,7 +19,6 @@ import imgMenuIconSrcset from '../../images/icon_list_m@2x.png';
 import sourceMenuIconSrcset from '../../images/icon_list_m@1x.svg';
 
 export default class Page {
-  //onChangePage: any;
   constructor() {
     //this.render();
     //this.onChangePage = onChangePage;

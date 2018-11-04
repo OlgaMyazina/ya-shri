@@ -21,7 +21,7 @@ let initialState: iVideoSettings = {};
 /*Получаем данные для видео -тайлов*/
 
 export default class DevicePage {
-  videos: Tile[] = [];
+  videos: { [key: string]: Tile } = {};
   onChange: any;
   containerElement: HTMLDivElement;
   userSettings: iVideoSettings;
@@ -39,32 +39,35 @@ export default class DevicePage {
       /*Получаем результат шаблонизатора и вставлем в html*/
 
       if (this.containerElement) {
-        console.log(this.userSettings);
-        const tile = new Tile(dataVideo, this.containerElement, dataVideo.url, this.onChange);
-        initialState[dataVideo.id] = {
-          brightness: '1',
-          contrast: '1'
-        };
-        this.videos.push(tile);
+        const settings = this.userSettings[dataVideo.id] || { brightness: '1', contrast: '1' };
+        if (!settings.brightness) settings.brightness = '1';
+        if (!settings.contrast) settings.contrast = '1';
+        const tile = new Tile(
+          dataVideo,
+          this.containerElement,
+          dataVideo.url,
+          this.onChange,
+          settings.brightness,
+          settings.contrast
+        );
+        this.videos[dataVideo.id] = tile;
       }
     });
   }
 
   updateVideoSettings(videosSettings: iVideoSettings) {
     for (let videoId in videosSettings) {
-      const index = this.videos.findIndex(videoTile => videoTile.video.classList.contains(videoId));
-      this.videos[index].setBrightness(videosSettings[videoId].brightness);
-      this.videos[index].setContrast(videosSettings[videoId].contrast);
+      this.videos[videoId].setBrightness(videosSettings[videoId].brightness || '1');
+      this.videos[videoId].setContrast(videosSettings[videoId].contrast || '1');
     }
   }
 
   unmount() {
-    this.videos.forEach(videoTile => {
-      videoTile.removeEventToVideo();
-      videoTile.removeEventToBrightness();
-      videoTile.removeEventToContrast();
-      videoTile.removeEventToBtns();
-      videoTile.removeEventToVolume();
-    });
+    for (let videoId in this.videos) {
+      this.videos[videoId].remove();
+    }
+    while (this.containerElement.firstChild) {
+      this.containerElement.removeChild(this.containerElement.firstChild);
+    }
   }
 }

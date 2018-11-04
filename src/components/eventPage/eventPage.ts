@@ -28,5 +28,10 @@ export default class EventPage {
       touchEvents.touchEvent();
     }
   }
-  unmount() {}
+  unmount() {
+    while (this.containerElement.firstChild) {
+      this.containerElement.removeChild(this.containerElement.firstChild);
+    }
+    //this.containerElement.parentNode.removeChild(this.containerElement);
+  }
 }

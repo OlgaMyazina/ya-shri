@@ -33,11 +33,21 @@ export default class Application {
     this.store.subscribe(this.routeChange.bind(this));
     this.container = <HTMLDivElement>document.querySelector('.container');
     this.renderPage(this.currentRoute);
+    this.listenerEventVideoFilter();
   }
   routeChange() {
     console.log(this.store);
     const routeFromStore = this.store.getState().route;
     if (routeFromStore !== this.currentRoute) this.renderPage(routeFromStore);
+  }
+  listenerEventVideoFilter() {
+    this.store.subscribe(() => {
+      console.log(`test`);
+      if (this.currentPage instanceof DevicePage) {
+        const videosSettings = this.store.getState().videos;
+        this.currentPage.updateVideoSettings(videosSettings);
+      }
+    });
   }
 
   onChangeVideoFilter(action: any) {
@@ -77,6 +87,7 @@ export default class Application {
     if (this.currentPage) this.currentPage.mount();
     this.currentRoute = routeFromStore;
   }
+
   listnerEventNav() {
     /*Перехватываем клик на ссылки */
     const navElements = document.querySelectorAll<HTMLElement>('nav a');

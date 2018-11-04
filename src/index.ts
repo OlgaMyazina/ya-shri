@@ -7,18 +7,28 @@ const ls = new LocalStorageManager();
 
 function reducer(state: any, action: any) {
   let newState = { ...state };
-
+  console.log(state);
+  console.log(action);
   switch (action.type) {
     case 'pageChange':
       newState.route = action.route;
 
       break;
     case 'contrastChange':
-      newState.videos[action.videoId].contrast = action.contrast;
+      if (newState.videos[action.videoId]) newState.videos[action.videoId].contrast = action.contrast;
+      else
+        newState.videos[action.videoId] = {
+          contrast: action.contrast
+        };
 
       break;
     case 'brightnessChange':
-      newState.videos[action.videoId].brightness = action.brightness;
+      if (newState.videos[action.videoId]) newState.videos[action.videoId].brightness = action.brightness;
+      else
+        newState.videos[action.videoId] = {
+          brightness: action.brightness
+        };
+      //newState.videos[action.videoId].brightness = action.brightness;
 
       break;
   }

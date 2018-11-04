@@ -26,6 +26,12 @@
 
 ---
 
+# bikeFlux - свой flux фреймворк
+
+```
+git clone https://github.com/OlgaMyazina/bikeFlux.git
+```
+
 ## Для запуска тестовых потоков:
 
 ```

@@ -16,13 +16,17 @@ export default class Tile {
   brightness: string = '1';
   contrast: string = '1';
   changeHandlers: any = [];
+  id: string;
 
   constructor(
     videoData: interfaceDataElement.VideoDataElement,
     videosContainer: HTMLDivElement,
     url: string,
-    onChange: any
+    onChange: any,
+    initBr: string,
+    initCont: string
   ) {
+    this.id = videoData.id;
     const html = videoTemplate(videoData);
     this.onChange = onChange;
     this.appendToContainer(html, videosContainer);
@@ -30,6 +34,9 @@ export default class Tile {
     /*Инициализируем видео*/
     this.video = <HTMLVideoElement>this.tile.querySelector('video');
     this.initVideoStream(this.video, url);
+    this.brightness = initBr;
+    this.contrast = initCont;
+    this.applyFilter();
 
     /*Обработчики */
     this.addEventToVideo();
@@ -82,7 +89,7 @@ export default class Tile {
     this.onChange({
       type: 'brightnessChange',
       brightness: `${(<HTMLInputElement>e.target).value}`,
-      videoId: this.video.classList[0]
+      videoId: this.id
     });
   }
   addEventToBrightness() {
@@ -102,7 +109,7 @@ export default class Tile {
     this.onChange({
       type: 'contrastChange',
       contrast: `${(<HTMLInputElement>e.target).value}`,
-      videoId: this.video.classList[0]
+      videoId: this.id
     });
   }
   addEventToContrast() {
@@ -180,6 +187,13 @@ export default class Tile {
       this.analyser = this.ctx.createAnalyser();
       this.processor = this.ctx.createScriptProcessor(256, 1, 1);
     }
+  }
+  remove() {
+    this.removeEventToVideo();
+    this.removeEventToBrightness();
+    this.removeEventToContrast();
+    this.removeEventToBtns();
+    this.removeEventToVolume();
   }
 
   analiser(chart: any, newState: string) {
