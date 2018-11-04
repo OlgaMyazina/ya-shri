@@ -1,4 +1,4 @@
-import './event.css';
+import './eventPage.css';
 
 import Tile from './components/tile/index';
 import { DeviceEvent } from './components/tile/index';
@@ -10,8 +10,9 @@ export default class EventPage {
   containerElement: HTMLDivElement;
   constructor(containerElement: HTMLDivElement) {
     this.containerElement = containerElement;
+    this.mount();
   }
-  render() {
+  mount() {
     fetch(EVENTS_URL)
       .then(res => res.json())
       .then(data => this.renderEvents(data.events));

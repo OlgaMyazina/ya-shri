@@ -176,12 +176,12 @@
   height: 2rem;
   margin-right: 1rem;
 
-  background-image: url('../../../images/voiceoff.png');
+  background-image: url('../../../../images/voiceoff.png');
   background-repeat: no-repeat;
   background-size: contain;
 }
 .volume.up {
-  background-image: url('../../../images/voiceon.png');
+  background-image: url('../../../../images/voiceon.png');
   background-repeat: no-repeat;
   background-size: contain;
 }

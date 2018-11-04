@@ -87,8 +87,8 @@ export default class Tile {
     this.event = event;
   }
   createEventElement() {
-    const tileTemplate: HTMLTemplateElement = <HTMLTemplateElement>document.querySelector('.template'); //.content.cloneNode(true);
-    tileTemplate.insertAdjacentHTML('beforeend', template);
+    const tileTemplate = document.querySelector<HTMLTemplateElement>('.template'); //.content.cloneNode(true);
+    if (tileTemplate) tileTemplate.insertAdjacentHTML('beforeend', template);
     const tile: HTMLDivElement = <HTMLDivElement>(
       (<HTMLTemplateElement>document.querySelector('.template-tile')).content.cloneNode(true)
     );

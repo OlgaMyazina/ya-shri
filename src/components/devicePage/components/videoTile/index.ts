@@ -23,7 +23,7 @@ export default class Tile {
     onChange: any
   ) {
     const html = videoTemplate(videoData);
-    this.onChange = onChange(handler);
+    //this.onChange = onChange(handler);
     this.appendToContainer(html, videosContainer);
     this.tile = <HTMLDivElement>videosContainer.querySelector('.device-wrap:last-child  .tile');
     /*Инициализируем видео*/

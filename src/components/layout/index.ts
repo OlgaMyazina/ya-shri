@@ -1,53 +1,45 @@
-import Store from 'bikeflux/build/store/store';
-
 import EventPage from '../eventPage/eventPage';
-import DevicePage from '../devicePage/devicePage';
+import DevicePage, { iVideoSettings } from '../devicePage/devicePage';
+//import { iState } from './index';
 
 import './layout.css';
 
 declare const EVENTS_URL: string;
 
-export default class Layout {
-  store: Store;
+type iPage = EventPage | DevicePage;
+
+export default class Application {
   eventPageLocation: string = 'События';
   devicePageLocation: string = 'Устройства';
-  initLocation: string;
   currentLocation: string;
-
-  currentPage: IPage;
+  currentPage: iPage;
   container: HTMLDivElement;
-  constructor() {
-    this.store = new Store();
-    this.initLocation = this.currentLocation = this.eventPageLocation;
+  onChangeVideoFilter: any;
+  constructor(onChangeVideoFilter: any) {
+    this.currentLocation = this.eventPageLocation;
     this.container = <HTMLDivElement>document.querySelector('.container');
+    this.currentPage = new EventPage(this.container);
+    this.renderLayout(this.currentLocation);
+    this.onChangeVideoFilter = onChangeVideoFilter;
   }
   renderLayout(locationFromStore: string): void {
     // renderPage
-
-    if (this.currentLocation === locationFromStore) {
-      return;
-    }
+    //Страница не изменилась
+    if (this.currentLocation === locationFromStore) return;
 
     if (this.currentPage) {
       // Мы уже что-то имеем на экране - это нужно удалить
       this.currentPage.unmount();
     }
-
     // Теперь рендерим то что нужно!
-
     if (locationFromStore === this.eventPageLocation) {
       this.currentPage = new EventPage(this.container);
     }
-
     if (locationFromStore === this.devicePageLocation) {
-      this.currentPage = new DevicePage(this.container);
-      this.store.subscrive(() => {
-        const videosSettings = this.store.getState().videos;
-        this.currentPage.updateVideosSettings(videosSettings);
-      });
+      this.currentPage = new DevicePage(this.container, this.onChangeVideoFilter);
     }
 
-    this.currentPage.render();
+    this.currentPage.mount();
     this.currentLocation = locationFromStore;
   }
 }

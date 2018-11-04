@@ -1,8 +1,6 @@
-//import Store from '../../../flux/build/store/store';
-
 import Tile from './components/videoTile/index';
 
-import dataVideos from '../data/video.json';
+import dataVideos from '../../data/video.json';
 
 export interface VideoDataElement {
   title: string;
@@ -10,15 +8,15 @@ export interface VideoDataElement {
   url: string;
 }
 
-interface iVideoSettings {
+export interface iVideoSettings {
   [key: string]: iVideoState;
 }
 
-interface iVideoState {
+export interface iVideoState {
   brightness: string;
   contrast: string;
 }
-//let initialState: iVideoSettings = {};
+let initialState: iVideoSettings = {};
 
 /*Получаем данные для видео -тайлов*/
 
@@ -28,20 +26,23 @@ export default class DevicePage {
   containerElement: HTMLDivElement;
   constructor(containerElement: HTMLDivElement, onChange: any) {
     this.containerElement = containerElement;
-    this.videoFromJSON();
+    this.mount();
     this.onChange = onChange;
+  }
+  mount(): void {
+    this.videoFromJSON();
   }
 
   videoFromJSON(): void {
     dataVideos.forEach((dataVideo: VideoDataElement) => {
       /*Получаем результат шаблонизатора и вставлем в html*/
-      const videosContainer = document.querySelector<HTMLDivElement>('.container');
-      if (videosContainer) {
-        const tile = new Tile(dataVideo, videosContainer, dataVideo.url, this.onChange);
-        /*initialState[dataVideo.class] = {
+
+      if (this.containerElement) {
+        const tile = new Tile(dataVideo, this.containerElement, dataVideo.url, this.onChange);
+        initialState[dataVideo.class] = {
           brightness: '1',
           contrast: '1'
-        };*/
+        };
         this.videos.push(tile);
       }
     });
