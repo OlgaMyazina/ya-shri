@@ -1,10 +1,11 @@
 import './tile.css';
-import picture from '../../../components/picture';
+import picture from '../../../picture';
+
 /*Импортируем изображения для графика */
-import imgGraphSrc from '../../../images/Richdata.png';
-import imgGraphSrcset2 from '../../../images/Richdata@2x.png';
-import imgGraphSrcset3 from '../../../images/Richdata@3x.png';
-import sourceGraphSrcset from '../../../images/Richdata.svg';
+import imgGraphSrc from '../../../../images/Richdata.png';
+import imgGraphSrcset2 from '../../../../images/Richdata@2x.png';
+import imgGraphSrcset3 from '../../../../images/Richdata@3x.png';
+import sourceGraphSrcset from '../../../../images/Richdata.svg';
 
 const template = `<template class="template-tile">
 <section class="tile tilehover">
@@ -60,7 +61,7 @@ export type EventData = EventDataAudio | EventDataGraph | EventDataImage | Event
 
 export type EventSize = 's' | 'm' | 'l';
 
-interface EventDataAudio {
+export interface EventDataAudio {
   albumcover: string;
   artist: string;
   track: {
@@ -69,14 +70,14 @@ interface EventDataAudio {
   };
   volume: number;
 }
-interface EventDataGraph {
+export interface EventDataGraph {
   type: 'graph';
   values: object[];
 }
-interface EventDataImage {
+export interface EventDataImage {
   image: string;
 }
-interface EventDataButtons {
+export interface EventDataButtons {
   buttons: string[];
 }
 
@@ -164,6 +165,7 @@ export default class Tile {
     }
     return tile;
   }
+
   isEventDataAudio(eventData: EventData): eventData is EventDataAudio {
     return typeof (<EventDataAudio>eventData).track !== 'undefined';
   }
@@ -235,11 +237,6 @@ export default class Tile {
       const dataGraph = picture(imageGraph);
       const graphHTML: HTMLElement = graphNode;
       graphHTML.innerHTML = dataGraph;
-      /*
-      graphNode.style.background = ` url('../../img/Richdata.png') no-repeat`;
-      graphNode.style.backgroundImage = `-webkit-image-set( url('../../img/Richdata.png') 1x, url('../../img/Richdata@2x.png') 2x, url('../../images/Richdata@3x.png') 3x )`;
-      graphNode.style.backgroundPosition = `center bottom`;
-      */
     }
   }
 
@@ -278,88 +275,3 @@ export default class Tile {
     return button;
   }
 }
-
-/*export default function createEventElement(event: DeviceEvent) {
-  const tileTemplate = <HTMLTemplateElement>(<HTMLTemplateElement>document.querySelector('.template')); //.content.cloneNode(true);
-  tileTemplate.insertAdjacentHTML('beforeend', template);
-  console.log(tileTemplate);
-  const tile: HTMLDivElement = <HTMLDivElement>(
-    (<HTMLTemplateElement>document.querySelector('.template-tile')).content.cloneNode(true)
-  );
-  const tileSize = <HTMLDivElement>tile.querySelector('.tile');
-  tileSize.classList.add(`${event.size}`);
-  searchAndSetAttr(tile, '.type-tile', 'type', event.type);
-  searchElemAndInnerText(tile, '.title-tile', event.title);
-  searchElemAndInnerText(tile, '.source-tile', event.source);
-  event.type === 'critical'
-    ? searchElemAndBgImage(tile, '.icon-tile', `url(img/${event.icon}-white.svg)`)
-    : searchElemAndBgImage(tile, '.icon-tile', `url(img/${event.icon}.svg)`);
-  searchElemAndInnerText(tile, '.time-tile', event.time);
-
-  if (event.description) {
-    searchElemAndInnerText(tile, '.description-tile', event.description);
-  }
-
-  const data = event.data;
-  if (data) {
-    //Если есть data, добавляем класс visable элементу info-tile
-    const tileInfo = <HTMLElement>tile.querySelector('.info-tile');
-    tileInfo.classList.add('visable');
-
-    //Если нашли трек, то используем шаблон аудио
-    if (isEventDataAudio(data)) {
-      const audio = <HTMLDivElement>(
-        (<HTMLTemplateElement>document.querySelector('.template-audio')).content.cloneNode(true)
-      );
-      fillTemplateAudio(audio, data);
-      const dataTile = <HTMLElement>tile.querySelector('.data-tile');
-      dataTile.classList.add('data-audio');
-      dataTile.appendChild(audio);
-    }
-
-    //Нашли тип граф
-    if (isEventDataGraph(data)) {
-      //вставляем картинку-заглушку
-      console.log(<HTMLDivElement>document.querySelector('.tile'));
-      console.log(<HTMLDivElement>document.querySelector('.template-graph'));
-      const graph: HTMLDivElement = <HTMLDivElement>(
-        (<HTMLTemplateElement>document.querySelector('.template-graph')).content.cloneNode(true)
-      );
-      console.log(graph);
-      fillTemplateGraph(graph, data);
-      const dataTile = <HTMLElement>tile.querySelector('.data-tile');
-      dataTile.appendChild(graph);
-    }
-    //Нашли изображение
-    if (isEventDataImage(data)) {
-      const image = <HTMLDivElement>(
-        (<HTMLTemplateElement>document.querySelector('.template-image')).content.cloneNode(true)
-      );
-      //вставляем заглушку вместо "get_it_from_mocks_:3.jpg"
-      const imgDiv = createImageElement();
-      const labels = createLabelControl();
-      image.appendChild(imgDiv);
-      const dataTile = <HTMLElement>tile.querySelector('.data-tile');
-      dataTile.classList.add('camera');
-      dataTile.appendChild(image);
-      dataTile.appendChild(labels);
-    }
-    //Нашли кнопки
-    if (isEventDataButtons(data)) {
-      const btns = <HTMLDivElement>(
-        (<HTMLTemplateElement>document.querySelector('.template-buttons')).content.cloneNode(true)
-      );
-      data.buttons.forEach(textBtn => {
-        const button = createButtonsElement(textBtn);
-        const buttons = btns.querySelector('.buttons');
-        if (buttons) {
-          buttons.appendChild(button);
-        }
-      });
-      const dataTile = <HTMLElement>tile.querySelector('.data-tile');
-      dataTile.appendChild(btns);
-    }
-  }
-  return tile;
-}
-*/

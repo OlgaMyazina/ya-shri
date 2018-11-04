@@ -138,6 +138,8 @@
 .label-contrast,
 .volume-container,
 .close-button {
+  align-self: center;
+
   width: 70%;
 }
 

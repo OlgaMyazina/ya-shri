@@ -6,9 +6,9 @@ const webpack = require('webpack');
 
 module.exports = {
   entry: {
-    home: './src/home/home.ts',
-    index: './src/index.ts',
-    device: './src/device/device.ts'
+    //home: './src/home/home.ts',
+    index: './src/index.ts'
+    //device: './src/device/device.ts'
   },
 
   output: {

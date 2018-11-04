@@ -21,6 +21,7 @@
     "@types/hls.js": "^0.10.2",
     "@types/node": "^10.12.0",
     "babel-loader": "^8.0.4",
+    "bikeflux": "^1.0.0",
     "copy-webpack-plugin": "^4.5.4",
     "cors": "^2.8.4",
     "css-loader": "^1.0.0",

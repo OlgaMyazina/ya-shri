@@ -1,8 +1,7 @@
 import * as Hls from 'hls.js';
-//import Store from '../../../../../flux/build/store/store';
 
 import * as videoTemplate from './videoTile.handlebars';
-import * as interfaceDataElement from '../../device';
+import * as interfaceDataElement from '../../devicePage';
 
 import './videoTile.css';
 
@@ -16,6 +15,7 @@ export default class Tile {
   onChange: any;
   brightness: string = '1';
   contrast: string = '1';
+  changeHandlers: any = [];
   constructor(
     videoData: interfaceDataElement.VideoDataElement,
     videosContainer: HTMLDivElement,
@@ -23,7 +23,7 @@ export default class Tile {
     onChange: any
   ) {
     const html = videoTemplate(videoData);
-    this.onChange = onChange;
+    this.onChange = onChange(handler);
     this.appendToContainer(html, videosContainer);
     this.tile = <HTMLDivElement>videosContainer.querySelector('.device-wrap:last-child  .tile');
     /*Инициализируем видео*/
@@ -59,45 +59,60 @@ export default class Tile {
     newHtmlElem.innerHTML = html;
     videosContainer.appendChild(newHtmlElem.content);
   }
+  listenerEventToVideo() {
+    this.tile.classList.add('opened');
+    this.initAudioContext();
+  }
 
   addEventToVideo() {
     if (this.video) {
-      this.video.addEventListener('click', () => {
-        this.tile.classList.add('opened');
-        this.initAudioContext();
-      });
+      this.video.addEventListener('click', this.listenerEventToVideo);
+    }
+  }
+  removeEventToVideo() {
+    if (this.video) {
+      this.video.removeEventListener('click', this.listenerEventToVideo);
     }
   }
 
+  listenerEventToBrightness(e: Event) {
+    //this.video.style.filter = `brightness(${(<HTMLInputElement>e.target).value})`;
+    this.onChange({
+      type: 'brightnessChange',
+      brightness: `${(<HTMLInputElement>e.target).value}`,
+      videoId: this.video.classList[0]
+    });
+  }
   addEventToBrightness() {
-    const inputBrightness: HTMLInputElement = <HTMLInputElement>this.tile.querySelector('.brightness');
-    if (inputBrightness) {
-      inputBrightness.addEventListener('input', e => {
-        //this.video.style.filter = `brightness(${(<HTMLInputElement>e.target).value})`;
-        this.onChange({
-          type: 'brightnessChange',
-          brightness: `${(<HTMLInputElement>e.target).value}`,
-          videoId: this.video.classList[0]
-        });
-      });
-    }
+    const inputBrightness = this.tile.querySelector<HTMLInputElement>('.brightness');
+    if (inputBrightness) inputBrightness.addEventListener('input', this.listenerEventToBrightness);
+  }
+  removeEventToBrightness() {
+    const inputBrightness = this.tile.querySelector<HTMLInputElement>('.brightness');
+    if (inputBrightness) inputBrightness.removeEventListener('input', this.listenerEventToBrightness);
   }
   setBrightness(brightnessValue: string) {
     this.brightness = brightnessValue;
     this.applyFilter();
   }
-
+  listenerEventToContrast(e: Event) {
+    //this.video.style.filter = `contrast(${(<HTMLInputElement>e.target).value})`;
+    this.onChange({
+      type: 'contrastChange',
+      contrast: `${(<HTMLInputElement>e.target).value}`,
+      videoId: this.video.classList[0]
+    });
+  }
   addEventToContrast() {
-    const inputContrast: HTMLInputElement = <HTMLInputElement>this.tile.querySelector('.contrast');
-    if (inputContrast !== null) {
-      inputContrast.addEventListener('input', e => {
-        //this.video.style.filter = `contrast(${(<HTMLInputElement>e.target).value})`;
-        this.onChange({
-          type: 'contrastChange',
-          contrast: `${(<HTMLInputElement>e.target).value}`,
-          videoId: this.video.classList[0]
-        });
-      });
+    const inputContrast = this.tile.querySelector<HTMLInputElement>('.contrast');
+    if (inputContrast) {
+      inputContrast.addEventListener('input', this.listenerEventToContrast);
+    }
+  }
+  removeEventToContrast() {
+    const inputContrast = this.tile.querySelector<HTMLInputElement>('.contrast');
+    if (inputContrast) {
+      inputContrast.removeEventListener('input', this.listenerEventToContrast);
     }
   }
 
@@ -109,23 +124,36 @@ export default class Tile {
   applyFilter() {
     this.video.style.filter = `brightness(${this.brightness}) contrast(${this.contrast})`;
   }
-
-  addEventToBtns() {
-    const button: HTMLDivElement = <HTMLDivElement>this.tile.querySelector('.close');
-    button.addEventListener('click', () => {
-      this.tile.classList.remove('opened');
-      const volume: HTMLDivElement = <HTMLDivElement>this.tile.querySelector('.volume');
-      if (volume && volume.classList.contains('up')) this.onVolumeMute();
-    });
+  listenerEventToButton() {
+    this.tile.classList.remove('opened');
+    const volume = this.tile.querySelector<HTMLDivElement>('.volume');
+    if (volume && volume.classList.contains('up')) this.onVolumeMute();
   }
-
-  addEventToVolume() {
-    const volume: HTMLDivElement = <HTMLDivElement>this.tile.querySelector('.volume');
+  addEventToBtns() {
+    const button = this.tile.querySelector<HTMLDivElement>('.close');
+    if (button) button.addEventListener('click', this.listenerEventToButton);
+  }
+  removeEventToBtns() {
+    const button = this.tile.querySelector<HTMLDivElement>('.close');
+    if (button) button.removeEventListener('click', this.listenerEventToButton);
+  }
+  listenerEventToVolume() {
+    const volume = this.tile.querySelector<HTMLDivElement>('.volume');
     if (volume) {
-      volume.addEventListener('click', e => {
-        const volumeUp = volume.classList.contains('up');
-        volumeUp ? this.onVolumeMute() : this.onVolumeUnMute();
-      });
+      const volumeUp = volume.classList.contains('up');
+      volumeUp ? this.onVolumeMute() : this.onVolumeUnMute();
+    }
+  }
+  addEventToVolume() {
+    const volume = this.tile.querySelector<HTMLDivElement>('.volume');
+    if (volume) {
+      volume.addEventListener('click', this.listenerEventToVolume);
+    }
+  }
+  removeEventToVolume() {
+    const volume = this.tile.querySelector<HTMLDivElement>('.volume');
+    if (volume) {
+      volume.removeEventListener('click', this.listenerEventToVolume);
     }
   }
 

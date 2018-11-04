@@ -1,7 +1,11 @@
-import './home.css';
+//import index from './index.hbs';
+//todo: удалить неиспользуемые файлы и проверить стили
+import './index.css';
 
 import foo from '../components/footer';
 import header from '../components/header';
+
+import layout from '../components/layout';
 
 import headerData from '../data/header.json';
 import footerData from '../data/footer.json';
@@ -42,7 +46,13 @@ const headerHTML = header(headerData);
 const headerElement: HTMLElement = <HTMLElement>document.querySelector('.header-wrap');
 headerElement.innerHTML = headerHTML;
 
+const layoutHTML = layout();
+const layoutElement: HTMLElement = <HTMLElement>document.querySelector('.container');
+layoutElement.innerHTML = layoutHTML;
+
 const dataFoo = foo(footerData);
 /*Получаем результат шаблонизатора и вставлем в html*/
 const fooHtml: HTMLElement = <HTMLElement>document.querySelector('.foo-menu');
 fooHtml.innerHTML = dataFoo;
+
+//export default index;
