@@ -21,9 +21,10 @@ export default class Application {
   store: Store;
   ls: LocalStorageManager;
   constructor(store: Store) {
-    this.currentRoute = ROUTE_EVENT;
     this.store = store;
     this.ls = new LocalStorageManager();
+    if (!this.ls.getStateFromLocalStorage().route) this.currentRoute = ROUTE_EVENT;
+    else this.currentRoute = this.ls.getStateFromLocalStorage().route;
     const layout = new Layout();
     layout.render();
     this.listnerEventNav();

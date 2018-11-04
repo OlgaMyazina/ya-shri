@@ -15,8 +15,7 @@ export default class LocalStorageManager {
   storage: Storage;
   constructor() {
     this.storage = localStorage;
-
-    this.setStateToLocalStorage(INIT_STORE);
+    if (!this.getStateFromLocalStorage()) this.setStateToLocalStorage(INIT_STORE);
   }
   getStateFromLocalStorage(): any {
     const stateStorage = this.storage.getItem(LS_STORE);
