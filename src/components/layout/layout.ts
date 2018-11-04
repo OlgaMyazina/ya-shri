@@ -1,5 +1,3 @@
-//import index from './index.hbs';
-//todo: удалить неиспользуемые файлы и проверить стили
 import './layout.css';
 
 import foo from '../footer';
@@ -19,10 +17,7 @@ import imgMenuIconSrcset from '../../images/icon_list_m@2x.png';
 import sourceMenuIconSrcset from '../../images/icon_list_m@1x.svg';
 
 export default class Page {
-  constructor() {
-    //this.render();
-    //this.onChangePage = onChangePage;
-  }
+  constructor() {}
   render() {
     /*Загружаем логотип для сайта */
     const imageLogo = {
@@ -54,7 +49,5 @@ export default class Page {
     /*Получаем результат шаблонизатора и вставлем в html*/
     const fooHtml: HTMLElement = <HTMLElement>document.querySelector('.foo-menu');
     fooHtml.innerHTML = dataFoo;
-
-    //export default index;
   }
 }

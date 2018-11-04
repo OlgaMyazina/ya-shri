@@ -29,7 +29,6 @@ export default class LocalStorageManager {
   connectToStore(store: Store) {
     store.subscribe(() => {
       const storeState = store.getState();
-      console.log(storeState);
       this.setStateToLocalStorage(storeState);
     });
   }

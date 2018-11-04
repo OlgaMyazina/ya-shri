@@ -1,4 +1,5 @@
 import Tile from './components/videoTile/index';
+import * as deviceTemplate from './devicePage.hbs';
 
 import dataVideos from '../../data/video.json';
 
@@ -16,40 +17,57 @@ export interface iVideoState {
   brightness: string;
   contrast: string;
 }
-let initialState: iVideoSettings = {};
-
-/*Получаем данные для видео -тайлов*/
 
 export default class DevicePage {
   videos: { [key: string]: Tile } = {};
   onChange: any;
   containerElement: HTMLDivElement;
   userSettings: iVideoSettings;
+  contentElement: HTMLDivElement | null;
   constructor(containerElement: HTMLDivElement, onChange: any, userSettings: iVideoSettings) {
     this.containerElement = containerElement;
     this.userSettings = userSettings;
     this.onChange = onChange;
+    this.createDivContent();
+    this.contentElement = document.querySelector<HTMLDivElement>('.content-device');
   }
   mount(): void {
     this.videoFromJSON();
   }
 
+  createDivContent() {
+    const html = deviceTemplate();
+
+    if (this.containerElement) {
+      this.containerElement.insertAdjacentHTML('beforeend', html);
+    }
+  }
+
   videoFromJSON(): void {
     dataVideos.forEach((dataVideo: VideoDataElement) => {
-      /*Получаем результат шаблонизатора и вставлем в html*/
-
-      if (this.containerElement) {
+      if (this.contentElement) {
         const settings = this.userSettings[dataVideo.id] || { brightness: '1', contrast: '1' };
         if (!settings.brightness) settings.brightness = '1';
         if (!settings.contrast) settings.contrast = '1';
-        const tile = new Tile(
-          dataVideo,
-          this.containerElement,
-          dataVideo.url,
-          this.onChange,
-          settings.brightness,
-          settings.contrast
-        );
+        let tile;
+        if (this.contentElement)
+          tile = new Tile(
+            dataVideo,
+            this.contentElement,
+            dataVideo.url,
+            this.onChange,
+            settings.brightness,
+            settings.contrast
+          );
+        else
+          tile = new Tile(
+            dataVideo,
+            this.containerElement,
+            dataVideo.url,
+            this.onChange,
+            settings.brightness,
+            settings.contrast
+          );
         this.videos[dataVideo.id] = tile;
       }
     });

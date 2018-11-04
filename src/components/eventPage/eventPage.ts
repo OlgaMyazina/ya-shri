@@ -3,14 +3,17 @@ import './eventPage.css';
 import Tile from './components/tile/index';
 import { DeviceEvent } from './components/tile/index';
 import * as touchEvents from './components/touchEnter';
+import * as eventTemplate from './eventPage.hbs';
 
 declare const EVENTS_URL: string;
 
 export default class EventPage {
   containerElement: HTMLDivElement;
+  contentElement: HTMLDivElement | null;
   constructor(containerElement: HTMLDivElement) {
     this.containerElement = containerElement;
-    //this.mount();
+    this.createDivContent();
+    this.contentElement = document.querySelector<HTMLDivElement>('.content');
   }
   mount() {
     fetch(EVENTS_URL)
@@ -22,16 +25,22 @@ export default class EventPage {
       events.forEach(
         (event: DeviceEvent): void => {
           const eventElement = new Tile(event);
-          this.containerElement.appendChild(eventElement.createEventElement());
+          if (this.contentElement) this.contentElement.appendChild(eventElement.createEventElement());
+          else this.containerElement.appendChild(eventElement.createEventElement());
         }
       );
       touchEvents.touchEvent();
+    }
+  }
+  createDivContent() {
+    const html = eventTemplate();
+    if (this.containerElement) {
+      this.containerElement.insertAdjacentHTML('beforeend', html);
     }
   }
   unmount() {
     while (this.containerElement.firstChild) {
       this.containerElement.removeChild(this.containerElement.firstChild);
     }
-    //this.containerElement.parentNode.removeChild(this.containerElement);
   }
 }

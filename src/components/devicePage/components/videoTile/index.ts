@@ -68,7 +68,6 @@ export default class Tile {
     videosContainer.appendChild(newHtmlElem.content);
   }
   listenerEventToVideo() {
-    //error: Cannot read property 'classList' of undefined at HTMLVideoElement.listenerEventToVideo
     this.tile.classList.add('opened');
     this.initAudioContext();
   }
@@ -85,7 +84,6 @@ export default class Tile {
   }
 
   listenerEventToBrightness(e: Event) {
-    //this.video.style.filter = `brightness(${(<HTMLInputElement>e.target).value})`;
     this.onChange({
       type: 'brightnessChange',
       brightness: `${(<HTMLInputElement>e.target).value}`,
@@ -105,7 +103,6 @@ export default class Tile {
     this.applyFilter();
   }
   listenerEventToContrast(e: Event) {
-    //this.video.style.filter = `contrast(${(<HTMLInputElement>e.target).value})`;
     this.onChange({
       type: 'contrastChange',
       contrast: `${(<HTMLInputElement>e.target).value}`,
