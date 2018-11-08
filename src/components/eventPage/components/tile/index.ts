@@ -171,21 +171,15 @@ export default class Tile {
     return typeof (<EventDataAudio>eventData).track !== 'undefined';
   }
 
-  isEventDataGraph(
-    eventData: object | EventDataAudio | EventDataGraph | EventDataImage | EventDataButtons
-  ): eventData is EventDataGraph {
+  isEventDataGraph(eventData: EventData): eventData is EventDataGraph {
     return typeof (<EventDataGraph>eventData).type !== 'undefined';
   }
 
-  isEventDataImage(
-    eventData: object | EventDataAudio | EventDataGraph | EventDataImage | EventDataButtons
-  ): eventData is EventDataImage {
+  isEventDataImage(eventData: EventData): eventData is EventDataImage {
     return typeof (<EventDataImage>eventData).image !== 'undefined';
   }
 
-  isEventDataButtons(
-    eventData: object | EventDataAudio | EventDataGraph | EventDataImage | EventDataButtons
-  ): eventData is EventDataButtons {
+  isEventDataButtons(eventData: EventData): eventData is EventDataButtons {
     return typeof (<EventDataButtons>eventData).buttons !== 'undefined';
   }
 
