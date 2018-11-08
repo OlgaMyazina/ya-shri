@@ -62,7 +62,7 @@ export default class Tile {
     }
   }
 
-  appendToContainer(html: any, videosContainer: any) {
+  appendToContainer(html: string, videosContainer: HTMLDivElement) {
     const newHtmlElem = document.createElement('template');
     newHtmlElem.innerHTML = html;
     videosContainer.appendChild(newHtmlElem.content);
