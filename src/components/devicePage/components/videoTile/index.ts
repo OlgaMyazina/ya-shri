@@ -1,7 +1,7 @@
 import * as Hls from 'hls.js';
 
 import * as videoTemplate from './videoTile.handlebars';
-import * as interfaceDataElement from '../../devicePage';
+import * as InterfaceDataElement from '../../devicePage';
 
 import './videoTile.css';
 
@@ -19,7 +19,7 @@ export default class Tile {
   id: string;
 
   constructor(
-    videoData: interfaceDataElement.VideoDataElement,
+    videoData: InterfaceDataElement.VideoDataElement,
     videosContainer: HTMLDivElement,
     url: string,
     onChange: any,

@@ -1,13 +1,13 @@
 import Store from '../../flux/build/store/store';
-import { iVideoSettings } from './components/devicePage/devicePage';
+import { IVideoSettings } from './components/devicePage/devicePage';
 
-export interface iState {
+export interface IState {
   route: string;
-  videos: iVideoSettings;
+  videos: IVideoSettings;
 }
 
 const LS_STORE = 'store';
-const INIT_STORE: iState = {
+const INIT_STORE: IState = {
   route: '',
   videos: {}
 };

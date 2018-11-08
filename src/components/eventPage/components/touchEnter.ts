@@ -3,7 +3,7 @@
 // Сюда будем записывать события
 let currentPointerEvents: PointerEventShare = {};
 // Состояние нашей картинки
-interface imageStateInterface {
+interface ImageStateInterface {
   leftMin: number;
   left: number;
   leftMax: number;
@@ -18,7 +18,7 @@ interface PointerEventShare {
   [key: string]: PointerEvent | MouseEvent | undefined;
 }
 
-const imageState: imageStateInterface = {
+const imageState: ImageStateInterface = {
   leftMin: -1000,
   left: 0,
   leftMax: 820,
@@ -29,7 +29,7 @@ const imageState: imageStateInterface = {
   brightness: 1,
   brightnessMax: 4
 };
-interface gestureStateInterface {
+interface GestureStateInterface {
   startZoom: number | null;
   startDistance: number | null;
   startBrightness: number | null;
@@ -37,12 +37,12 @@ interface gestureStateInterface {
   angleDiff: number | null;
   type: string | null;
 }
-interface gestureInterface {
+interface GestureInterface {
   type: string | null;
 }
 
 // Описание текущего жеста
-let gesture: gestureStateInterface | null = null;
+let gesture: GestureStateInterface | null = null;
 
 export function touchEvent() {
   //Получаем элемент - камеры - картинки, чтобы вращать

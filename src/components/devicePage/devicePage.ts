@@ -9,11 +9,11 @@ export interface VideoDataElement {
   url: string;
 }
 
-export interface iVideoSettings {
-  [key: string]: iVideoState;
+export interface IVideoSettings {
+  [key: string]: IVideoState;
 }
 
-export interface iVideoState {
+export interface IVideoState {
   brightness: string;
   contrast: string;
 }
@@ -22,9 +22,9 @@ export default class DevicePage {
   videos: { [key: string]: Tile } = {};
   onChange: any;
   containerElement: HTMLDivElement;
-  userSettings: iVideoSettings;
+  userSettings: IVideoSettings;
   contentElement: HTMLDivElement | null;
-  constructor(containerElement: HTMLDivElement, onChange: any, userSettings: iVideoSettings) {
+  constructor(containerElement: HTMLDivElement, onChange: any, userSettings: IVideoSettings) {
     this.containerElement = containerElement;
     this.userSettings = userSettings;
     this.onChange = onChange;
@@ -73,7 +73,7 @@ export default class DevicePage {
     });
   }
 
-  updateVideoSettings(videosSettings: iVideoSettings) {
+  updateVideoSettings(videosSettings: IVideoSettings) {
     for (let videoId in videosSettings) {
       this.videos[videoId].setBrightness(videosSettings[videoId].brightness || '1');
       this.videos[videoId].setContrast(videosSettings[videoId].contrast || '1');

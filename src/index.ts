@@ -10,7 +10,6 @@ function reducer(state: any, action: any) {
   switch (action.type) {
     case 'pageChange':
       newState.route = action.route;
-
       break;
     case 'contrastChange':
       if (newState.videos[action.videoId]) newState.videos[action.videoId].contrast = action.contrast;
@@ -26,7 +25,6 @@ function reducer(state: any, action: any) {
         newState.videos[action.videoId] = {
           brightness: action.brightness
         };
-
       break;
   }
   return newState;
