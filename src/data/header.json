@@ -1,7 +1,7 @@
 {
   "items": [
     {
-      "url": "index.html",
+      "url": "#",
       "title": "События"
     },
     {
@@ -9,7 +9,7 @@
       "title": "Сводка"
     },
     {
-      "url": "device.html",
+      "url": "#",
       "title": "Устройства"
     },
     {

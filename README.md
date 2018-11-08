@@ -21,7 +21,24 @@
 Запуск проекта в режиме разработчика проекта:
 `npm run dev`
 
-Сборка проекта для prodaction:
+Сборка проекта для production:
 `npm run build`
 
 ---
+
+# bikeFlux - свой flux фреймворк
+
+```
+git clone https://github.com/OlgaMyazina/bikeFlux.git
+```
+
+должен был получиться npm пакет, но были ошибки - не хватило времени разобраться
+
+## Для запуска тестовых потоков:
+
+```
+git clone https://github.com/mad-gooze/shri-2018-2-multimedia-homework.git
+cd shri-2018-2-multimedia-homework
+npm i
+npm start
+```

@@ -1,7 +1,9 @@
 import * as Hls from 'hls.js';
+
 import * as videoTemplate from './videoTile.handlebars';
+import * as InterfaceDataElement from '../../devicePage';
+
 import './videoTile.css';
-import * as interfaceDataElement from '../../device';
 
 export default class Tile {
   tile: HTMLDivElement;
@@ -10,14 +12,31 @@ export default class Tile {
   source: MediaElementAudioSourceNode | undefined;
   analyser: AnalyserNode | undefined;
   processor: ScriptProcessorNode | undefined;
-  constructor(videoData: interfaceDataElement.VideoDataElement, videosContainer: HTMLDivElement, url: string) {
-    const html = videoTemplate(videoData);
+  onChange: any;
+  brightness: string = '1';
+  contrast: string = '1';
+  changeHandlers: any = [];
+  id: string;
 
+  constructor(
+    videoData: InterfaceDataElement.VideoDataElement,
+    videosContainer: HTMLDivElement,
+    url: string,
+    onChange: any,
+    initBr: string,
+    initCont: string
+  ) {
+    this.id = videoData.id;
+    const html = videoTemplate(videoData);
+    this.onChange = onChange;
     this.appendToContainer(html, videosContainer);
     this.tile = <HTMLDivElement>videosContainer.querySelector('.device-wrap:last-child  .tile');
     /*Инициализируем видео*/
     this.video = <HTMLVideoElement>this.tile.querySelector('video');
     this.initVideoStream(this.video, url);
+    this.brightness = initBr;
+    this.contrast = initCont;
+    this.applyFilter();
 
     /*Обработчики */
     this.addEventToVideo();
@@ -43,55 +62,104 @@ export default class Tile {
     }
   }
 
-  appendToContainer(html: any, videosContainer: any) {
+  appendToContainer(html: string, videosContainer: HTMLDivElement) {
     const newHtmlElem = document.createElement('template');
     newHtmlElem.innerHTML = html;
     videosContainer.appendChild(newHtmlElem.content);
   }
+  listenerEventToVideo() {
+    this.tile.classList.add('opened');
+    this.initAudioContext();
+  }
 
   addEventToVideo() {
     if (this.video) {
-      this.video.addEventListener('click', () => {
-        if (document.querySelector('.opened')) {
-          this.tile.classList.add('opened');
-          this.initAudioContext();
-        }
-      });
+      this.video.addEventListener('click', this.listenerEventToVideo.bind(this));
+    }
+  }
+  removeEventToVideo() {
+    if (this.video) {
+      this.video.removeEventListener('click', this.listenerEventToVideo.bind(this));
     }
   }
 
-  addEventToBrightness() {
-    const inputBrightness: HTMLInputElement = <HTMLInputElement>this.tile.querySelector('.brightness');
-    if (inputBrightness) {
-      inputBrightness.addEventListener('input', e => {
-        this.video.style.filter = `brightness(${(<HTMLInputElement>e.target).value})`;
-      });
-    }
-  }
-
-  addEventToContrast() {
-    const inputContrast: HTMLInputElement = <HTMLInputElement>this.tile.querySelector('.contrast');
-    if (inputContrast !== null) {
-      inputContrast.addEventListener('input', e => {
-        this.video.style.filter = `contrast(${(<HTMLInputElement>e.target).value})`;
-      });
-    }
-  }
-  addEventToBtns() {
-    const button: HTMLDivElement = <HTMLDivElement>this.tile.querySelector('.close');
-    button.addEventListener('click', () => {
-      this.tile.classList.remove('opened');
-      this.onVolumeMute();
+  listenerEventToBrightness(e: Event) {
+    this.onChange({
+      type: 'brightnessChange',
+      brightness: `${(<HTMLInputElement>e.target).value}`,
+      videoId: this.id
     });
   }
+  addEventToBrightness() {
+    const inputBrightness = this.tile.querySelector<HTMLInputElement>('.brightness');
+    if (inputBrightness) inputBrightness.addEventListener('input', this.listenerEventToBrightness.bind(this));
+  }
+  removeEventToBrightness() {
+    const inputBrightness = this.tile.querySelector<HTMLInputElement>('.brightness');
+    if (inputBrightness) inputBrightness.removeEventListener('input', this.listenerEventToBrightness.bind(this));
+  }
+  setBrightness(brightnessValue: string) {
+    this.brightness = brightnessValue;
+    this.applyFilter();
+  }
+  listenerEventToContrast(e: Event) {
+    this.onChange({
+      type: 'contrastChange',
+      contrast: `${(<HTMLInputElement>e.target).value}`,
+      videoId: this.id
+    });
+  }
+  addEventToContrast() {
+    const inputContrast = this.tile.querySelector<HTMLInputElement>('.contrast');
+    if (inputContrast) {
+      inputContrast.addEventListener('input', this.listenerEventToContrast.bind(this));
+    }
+  }
+  removeEventToContrast() {
+    const inputContrast = this.tile.querySelector<HTMLInputElement>('.contrast');
+    if (inputContrast) {
+      inputContrast.removeEventListener('input', this.listenerEventToContrast.bind(this));
+    }
+  }
 
-  addEventToVolume() {
-    const volume: HTMLDivElement = <HTMLDivElement>this.tile.querySelector('.volume');
+  setContrast(contrastValue: string) {
+    this.contrast = contrastValue;
+    this.applyFilter();
+  }
+
+  applyFilter() {
+    this.video.style.filter = `brightness(${this.brightness}) contrast(${this.contrast})`;
+  }
+  listenerEventToButton() {
+    this.tile.classList.remove('opened');
+    const volume = this.tile.querySelector<HTMLDivElement>('.volume');
+    if (volume && volume.classList.contains('up')) this.onVolumeMute();
+  }
+  addEventToBtns() {
+    const button = this.tile.querySelector<HTMLDivElement>('.close');
+    if (button) button.addEventListener('click', this.listenerEventToButton.bind(this));
+  }
+  removeEventToBtns() {
+    const button = this.tile.querySelector<HTMLDivElement>('.close');
+    if (button) button.removeEventListener('click', this.listenerEventToButton.bind(this));
+  }
+  listenerEventToVolume() {
+    const volume = this.tile.querySelector<HTMLDivElement>('.volume');
     if (volume) {
-      volume.addEventListener('click', e => {
-        const volumeUp = volume.classList.contains('up');
-        volumeUp ? this.onVolumeMute() : this.onVolumeUnMute();
-      });
+      const volumeUp = volume.classList.contains('up');
+      volumeUp ? this.onVolumeMute() : this.onVolumeUnMute();
+    }
+  }
+  addEventToVolume() {
+    const volume = this.tile.querySelector<HTMLDivElement>('.volume');
+    if (volume) {
+      volume.addEventListener('click', this.listenerEventToVolume.bind(this));
+    }
+  }
+  removeEventToVolume() {
+    const volume = this.tile.querySelector<HTMLDivElement>('.volume');
+    if (volume) {
+      volume.removeEventListener('click', this.listenerEventToVolume.bind(this));
     }
   }
 
@@ -117,6 +185,13 @@ export default class Tile {
       this.processor = this.ctx.createScriptProcessor(256, 1, 1);
     }
   }
+  remove() {
+    this.removeEventToVideo();
+    this.removeEventToBrightness();
+    this.removeEventToContrast();
+    this.removeEventToBtns();
+    this.removeEventToVolume();
+  }
 
   analiser(chart: any, newState: string) {
     if (this.ctx !== undefined) {
@@ -127,7 +202,6 @@ export default class Tile {
         if (newState == 'running') {
           /*запускаем */
           this.ctx.resume();
-
           this.analyser.connect(this.ctx.destination);
           this.processor.connect(this.ctx.destination);
           this.analyser.fftSize = 32;
@@ -135,9 +209,7 @@ export default class Tile {
           this.processor.onaudioprocess = () => {
             if (this.analyser !== undefined) {
               this.analyser.getByteFrequencyData(data);
-
               /*Для отображения графика */
-
               //коэффициент
               const kData = 25;
               //Стобцы графика

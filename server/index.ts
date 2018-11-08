@@ -10,6 +10,7 @@ const port: number = 8000;
 app.use(cors());
 app.use('/status', StatusRouter);
 app.use('/api/events', EventRouter);
+
 app.use((req, res, next) => {
   res
     .type('text/html')

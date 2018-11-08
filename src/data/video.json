@@ -1,22 +1,22 @@
 [
   {
     "title": "Камера 1",
-    "class": "video-1",
+    "id": "video-1",
     "url": "http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fsosed%2Fmaster.m3u8"
   },
   {
     "title": "Камера 2",
-    "class": "video-2",
+    "id": "video-2",
     "url": "http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fcat%2Fmaster.m3u8"
   },
   {
     "title": "Камера 3",
-    "class": "video-3",
+    "id": "video-3",
     "url": "http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fdog%2Fmaster.m3u8"
   },
   {
     "title": "Камера 4",
-    "class": "video-4",
+    "id": "video-4",
     "url": "http://localhost:9191/master?url=http%3A%2F%2Flocalhost%3A3102%2Fstreams%2Fhall%2Fmaster.m3u8"
   }
 ]

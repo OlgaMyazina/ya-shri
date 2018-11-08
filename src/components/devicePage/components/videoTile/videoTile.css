@@ -1,0 +1,190 @@
+.container {
+  max-width: 65rem;
+  margin: 2rem auto 0;
+
+  text-align: left;
+
+  color: #000000;
+
+  font-family: ArialMT;
+  font-size: 1.125rem;
+}
+.font-h1 {
+  text-align: left;
+
+  color: #333333;
+
+  font-family: Arial-BoldMT;
+  font-size: 2.25rem;
+}
+.tile {
+  position: relative;
+
+  border-radius: 1.25rem;
+  background: #fafafa;
+
+  grid-auto-rows: -webkit-min-content;
+  grid-auto-rows: min-content;
+}
+
+.title-tile {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+
+  height: 3.6rem;
+
+  text-align: center;
+  text-overflow: ellipsis;
+
+  color: #333333;
+
+  font-family: Arial-BoldMT;
+  font-size: 1.5rem;
+
+  -o-text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+}
+
+.content-device {
+  display: grid;
+
+  padding-top: 2rem;
+
+  grid-template-columns: repeat(2, 1fr);
+  grid-template-rows: 1fr 1fr;
+  grid-gap: 1.2rem;
+}
+
+.video {
+  width: 100%;
+  height: 80%;
+
+  border-radius: 1.25rem;
+}
+
+.title-tile-v {
+  display: -webkit-box;
+  overflow: hidden;
+  -webkit-box-orient: vertical;
+
+  height: 3.6rem;
+
+  text-align: center;
+  text-overflow: ellipsis;
+
+  color: #333333;
+
+  font-family: Arial-BoldMT;
+  font-size: 1.5rem;
+
+  -o-text-overflow: ellipsis;
+  -webkit-line-clamp: 2;
+}
+
+.v {
+  height: 20rem;
+  padding: 0.5rem;
+
+  transition: width, height, top, left 10s;
+  /*transition : offset-position 5s;*/
+}
+.opened.v {
+  position: absolute;
+  z-index: 1;
+  top: 50%;
+  left: 50%;
+
+  width: 90%;
+  max-width: 100%;
+  height: 90%;
+  max-height: 80%;
+
+  transition: width, height, top, left 10s;
+  -webkit-transform: translate(-50%, -50%);
+  transform: translate(-50%, -50%);
+}
+
+.close-button {
+  z-index: 1;
+  z-index: 2;
+  right: 1rem;
+  bottom: 1rem;
+
+  display: flex;
+  /* align-content: space-between; */
+  align-items: center;
+  justify-content: center;
+  /*width: 7rem;*/
+
+  height: 3rem;
+  /*padding: 0.5rem;
+  text-align: center;*/
+
+  border-radius: 0.75rem;
+  background-color: #e5e5e5;
+}
+
+.close-button-hover:hover {
+  background-color: #ffd93e;
+}
+
+.open {
+  display: none;
+  justify-content: space-between;
+}
+
+.label-brightness,
+.label-contrast,
+.volume-container,
+.close-button {
+  align-self: center;
+
+  width: 70%;
+}
+
+.opened .open {
+  display: flex;
+
+  padding-top: 1rem;
+}
+
+.volume-container {
+  display: flex;
+  justify-content: center;
+
+  padding-right: 1rem;
+  padding-left: 1rem;
+}
+
+@media only screen and (max-width: 800px) {
+  .content-device {
+    grid-template-columns: 1fr;
+  }
+  .opened.v {
+    position: relative;
+
+    height: auto;
+  }
+  .open {
+    flex-wrap: wrap;
+  }
+}
+
+.volume {
+  width: 2rem;
+  height: 2rem;
+  margin-right: 1rem;
+
+  background-image: url('../../../../images/voiceoff.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.volume.up {
+  background-image: url('../../../../images/voiceon.png');
+  background-repeat: no-repeat;
+  background-size: contain;
+}
+.chart {
+  margin-left: 1rem;
+}

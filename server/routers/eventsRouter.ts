@@ -36,6 +36,9 @@ function getEvents(req: Request, res: Response, next: NextFunction) {
   res.json({ events });
 }
 
-router.get('/', getEvents);
+router.get('/', function(req, res) {
+  res.render('home', { layout: 'home.hbs' });
+});
+//router.get('/', getEvents);
 
 export const EventRouter: Router = router;
